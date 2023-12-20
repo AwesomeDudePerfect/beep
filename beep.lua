@@ -50,7 +50,7 @@ end
 local function checklisting(uid, gems, item, version, shiny, amount, username, playerid)
     gems = tonumber(gems)
 
-    if string.find(item, "Huge") and gems <= 1000000 then
+    if string.find(item, "Huge") and gems <= 500000 then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         processListingInfo(uid, gems, item, version, shiny, amount, username)
     elseif item == "X-Large Christmas Present" and gems <= 50000 then

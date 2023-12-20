@@ -1,9 +1,9 @@
 print('executed')
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 
-for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
-	v:Disable()
-end
+-- for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
+	-- v:Disable()
+-- end
 
 local vu = game:GetService("VirtualUser")
 game:GetService("Players").LocalPlayer.Idled:connect(function()

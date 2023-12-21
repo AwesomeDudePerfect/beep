@@ -90,3 +90,8 @@ local isServerDead = coroutine.create(function ()
     end
 end)
 coroutine.resume(isServerDead)
+
+while 1 do
+    wait(5)
+    Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").Jump = true
+end

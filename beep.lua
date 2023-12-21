@@ -1,7 +1,9 @@
 print('executed')
-
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 
+for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
+	v:Disable()
+end
 -- for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
 	-- v:Disable()
 -- end
@@ -12,7 +14,6 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
     wait(1)
     vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 end)
-
 local function processListingInfo(uid, gems, item, version, shiny, amount, boughtFrom)
     print(uid, gems, item, version, shiny, amount, boughtFrom)
     print("BOUGHT FROM:", boughtFrom)
@@ -47,10 +48,8 @@ local function processListingInfo(uid, gems, item, version, shiny, amount, bough
         print("AMOUNT:", amount)
     end
 end
-
 local function checklisting(uid, gems, item, version, shiny, amount, username, playerid)
     gems = tonumber(gems)
-
     if string.find(item, "Huge") and gems <= 500000 then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         processListingInfo(uid, gems, item, version, shiny, amount, username)
@@ -68,7 +67,6 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
         processListingInfo(uid, gems, item, version, shiny, amount, username)
     end
 end
-
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     local playerID = message['PlayerID']
     if type(message) == "table" then
@@ -78,10 +76,8 @@ Booths_Broadcast.OnClientEvent:Connect(function(username, message)
                 local uid = key
                 local gems = value["DiamondCost"]
                 local itemdata = value["ItemData"]
-
                 if itemdata then
                     local data = itemdata["data"]
-
                     if data then
                         local item = data["id"]
                         local version = data["pt"]

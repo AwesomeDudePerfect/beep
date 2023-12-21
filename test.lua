@@ -10,6 +10,9 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
     wait(1)
     vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 end)
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+  v:Disable()
+end
 
 -- Players.LocalPlayer.PlayerScripts["Idle Tracking"].Disabled = true
 

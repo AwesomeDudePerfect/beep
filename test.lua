@@ -1,10 +1,3 @@
-getgenv().Settings = {
-    HugePrice = 500000,
-    Webhook = "https://discord.com/api/webhooks/1102031995506266162/qoP0abw3x1dRilmnwUeZyC__qJl87J2C8yxD6R_vwicx6FRfQ2Bo9ZZmWkIKaDo0vdNZ"
-}
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/AwesomeDudePerfect/beep/main/test.lua"))()
-
 print('executed')
 
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")

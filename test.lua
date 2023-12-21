@@ -11,7 +11,7 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
     vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 end)
 
-Players.LocalPlayer.PlayerScripts["Idle Tracking"].Disabled = true
+-- Players.LocalPlayer.PlayerScripts["Idle Tracking"].Disabled = true
 
 local function serverHop()
     local sfUrl = "https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=%s&limit=%s&excludeFullGames=true"

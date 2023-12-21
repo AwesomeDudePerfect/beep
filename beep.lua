@@ -1,4 +1,10 @@
-print('executed')
+local Library = require(ReplicatedStorage:WaitForChild("Library", 2000))
+
+if not Library.Loaded then
+    repeat task.wait() until Library.Loaded ~= false
+end
+Library.Alert.Message("executed")
+
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 
 -- for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
@@ -13,6 +19,7 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 end)
 
 local function processListingInfo(uid, gems, item, version, shiny, amount, boughtFrom)
+    Library.Alert.Message("Sniped a ", item)
     print(uid, gems, item, version, shiny, amount, boughtFrom)
     print("BOUGHT FROM:", boughtFrom)
     print("UID:", uid)

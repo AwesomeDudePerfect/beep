@@ -11,7 +11,7 @@ end)
 
 function sendUpdate(uid, gems, item, version, shiny, amount, boughtFrom)
 	request({
-		Url = getgenv().Settings.Webhook,
+	Url = getgenv().Settings.Webhook,
         Method = "POST",
         Headers = {
             ["Content-Type"] = "application/json"
@@ -30,7 +30,7 @@ function sendUpdate(uid, gems, item, version, shiny, amount, boughtFrom)
                     }
 			      },
 			      ["author"] = {
-			        ["name"] = "Sniper notifier"
+			        ["name"] = "Sniper notif"
 			      }
 			    }
 			}

@@ -1,6 +1,9 @@
 print('executed')
 
+local Players = game:GetService("Players")
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
+local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
 
 local vu = game:GetService("VirtualUser")
 game:GetService("Players").LocalPlayer.Idled:connect(function()
@@ -9,52 +12,41 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
     vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 end)
 
-function sendUpdate(uid, gems, item, version, shiny, amount, boughtFrom)
-	request({
-	Url = getgenv().Settings.Webhook,
-        Method = "POST",
-        Headers = {
-            ["Content-Type"] = "application/json"
-        },
-        Body = game:GetService("HttpService"):JSONEncode{
-            ["content"] = "",
-            ["embeds"] = {
-			    {
-			      ["title"] = "Successful Snipe",
-			      ["description"] = "",
-			      ["color"] = 5814783,
-			      ["fields"] = {
-			        {
-			          ["name"] = "Stats: ",
-			          ["value"] = "**nigga you sniped a:** ``"..item.."`` | **cost:** ``"..gems.."`` ",
-                    }
-			      },
-			      ["author"] = {
-			        ["name"] = "Sniper notif"
-			      }
-			    }
-			}
-		}
-	})
+local function serverHop()
+    local sfUrl = "https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=%s&limit=%s&excludeFullGames=true"
+    local req = request({ Url = string.format(sfUrl, game.placeId, "Desc", 100) })
+    local body = HttpService:JSONDecode(req.Body)
+    --req = request({ Url = string.format( sfUrl .. "&cursor=" .. body.nextPageCursor, config.placeId, config.servers.sort, config.servers.count ), })
+    task.wait(0.1)
+    local servers = {}
+    if body and body.data then
+        for i, v in next, body.data do
+            if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing > 40 and v.id ~= game.JobId then
+                table.insert(servers, 1, v.id)
+            end
+        end
+    end
+
+    local randomCount = #servers
+    if not randomCount then
+        randomCount = 2
+    end
+
+    TeleportService:TeleportToPlaceInstance(game.placeId, servers[math.random(1, randomCount)], Players.LocalPlayer)
 end
 
 local function checklisting(uid, gems, item, version, shiny, amount, username, playerid)
     gems = tonumber(gems)
     if string.find(item, "Huge") and gems <= getgenv().Settings.HugePrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        sendUpdate(uid, gems, item, version, shiny, amount, username)
     elseif item == "X-Large Christmas Present" and gems <= 50000 then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        sendUpdate(uid, gems, item, version, shiny, amount, username)
     elseif string.find(item, "Titanic") and gems <= 50000 then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        sendUpdate(uid, gems, item, version, shiny, amount, username)
     elseif string.find(item, "Exclusive") and gems <= 500000 then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        sendUpdate(uid, gems, item, version, shiny, amount, username)
     elseif gems <= 25 then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        sendUpdate(uid, gems, item, version, shiny, amount, username)
     end
 end
 
@@ -82,6 +74,15 @@ Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     end
 end)
 
-while true do wait(5)
-    game.Players.LocalPlayer.Character.Humanoid.Jump = true
-end
+local isServerDead = coroutine.create(function ()
+    while 1 do
+        wait(10)
+        local Players = game:GetService("Players"):GetPlayers()
+        local count = #Players
+
+        if count <= getgenv().Settings.num_of_players_to_tp then
+            pcall(serverHop)
+        end
+    end
+end)
+coroutine.resume(isServerDead)

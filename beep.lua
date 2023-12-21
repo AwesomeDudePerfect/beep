@@ -5,6 +5,8 @@ if not Library.Loaded then
 end
 Library.Alert.Message("executed")
 
+print('executed')
+
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 
 -- for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do

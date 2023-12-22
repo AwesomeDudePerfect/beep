@@ -4,12 +4,6 @@ local Players = game:GetService("Players")
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
-local vu = game:GetService("VirtualUser")
-game:GetService("Players").LocalPlayer.Idled:connect(function()
-    vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-    wait(1)
-    vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-end)
 for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
   v:Disable()
 end
@@ -43,14 +37,40 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     gems = tonumber(gems)
     if string.find(item, "Huge") and gems <= getgenv().Settings.HugePrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-    elseif item == "X-Large Christmas Present" and gems <= getgenv().Settings.ChristmasPrice then
+        print('Successfully Sniped ', item)
+    elseif string.find(item, "Titanic") and item ~= "Titanic Christmas Present" and gems <= getgenv().Settings.TitanicPetPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-    elseif string.find(item, "Titanic") and gems <= getgenv().Settings.TitanicPrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        print('Successfully Sniped ', item)
     elseif string.find(item, "Exclusive") and gems <= getgenv().Settings.ExclusivePrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-    elseif gems <= getgenv().Settings.Anything then
+        print('Successfully Sniped ', item)
+    elseif item == "Titanic Christmas Present" and gems <= getgenv().Settings.TitanicPresentPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        print('Successfully Sniped ', item)
+    elseif item == "X-Large Christmas Present" and gems <= getgenv().Settings.XLargeChristmasPrice then
+        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        print('Successfully Sniped ', item)
+    elseif item == "Fortune" and gems <= getgenv().Settings.FortunePrice then
+        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        print('Successfully Sniped ', item)
+    elseif item == "Chest Mimic" and gems <= getgenv().Settings.ChestMimicPrice then
+        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        print('Successfully Sniped ', item)
+    elseif item == "Lucky Block" and gems <= getgenv().Settings.LuckyBlockPrice then
+        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        print('Successfully Sniped ', item)
+    elseif item == "Shiny Hunter" and gems <= getgenv().Settings.ShinyHunterPrice then
+        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        print('Successfully Sniped ', item)
+    elseif item == "Huge Hunter" and gems <= getgenv().Settings.HugeHunterPrice then
+        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        print('Successfully Sniped ', item)
+    elseif string.find(item, "Royalty") and gems <= getgenv().Settings.RoyaltyPrice then
+        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        print('Successfully Sniped ', item)
+    elseif string.find(item, "Spinny") and gems <= getgenv().Settings.SpinnyPrice then
+        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        print('Successfully Sniped ', item)
     end
 end
 
@@ -78,13 +98,23 @@ Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     end
 end)
 
-local isServerDead = coroutine.create(function ()
+local niggaJump = coroutine.create(function ()
     while 1 do
+        wait(5)
+        game.Players.LocalPlayer.Character.Humanoid.Jump = true
+    end
+end)
+coroutine.resume(niggaJump)
+
+local isServerDead = coroutine.create(function ()
+    local isDead = false
+    while not isDead do
         wait(10)
         local Players = game:GetService("Players"):GetPlayers()
         local count = #Players
 
         if count <= getgenv().Settings.num_of_players_to_tp then
+            isDead = true
             pcall(serverHop)
         end
     end

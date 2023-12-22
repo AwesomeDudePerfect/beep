@@ -12,12 +12,13 @@ game:service'Players'.LocalPlayer.Idled:connect(function()
 VirtualUser:CaptureController()
 VirtualUser:ClickButton2(Vector2.new())
 end)
+game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
 -- Players.LocalPlayer.PlayerScripts["Idle Tracking"].Disabled = true
 
-local function serverHop(placeId)
+local function serverHop()
     local sfUrl = "https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=%s&limit=%s&excludeFullGames=true"
-    local req = request({ Url = string.format(sfUrl, placeId, "Desc", 100) })
+    local req = request({ Url = string.format(sfUrl, game.placeId, "Desc", 100) })
     local body = HttpService:JSONDecode(req.Body)
     --req = request({ Url = string.format( sfUrl .. "&cursor=" .. body.nextPageCursor, config.placeId, config.servers.sort, config.servers.count ), })
     task.wait(0.1)
@@ -36,11 +37,6 @@ local function serverHop(placeId)
     end
 
     TeleportService:TeleportToPlaceInstance(game.placeId, servers[math.random(1, randomCount)], Players.LocalPlayer)
-end
-
-if game.placeId ~= 15502339080 then
-    pcall(serverHop, 15502339080)
-    wait(60)
 end
 
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
@@ -127,7 +123,7 @@ local isServerDead = coroutine.create(function ()
 
         if count <= getgenv().Settings.num_of_players_to_tp then
             isDead = true
-            pcall(serverHop, 15502339080)
+            pcall(serverHop)
         end
     end
 end)

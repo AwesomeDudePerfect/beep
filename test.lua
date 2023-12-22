@@ -13,16 +13,6 @@ local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
 
---//Anti AFK
-local VirtualUser=game:service'VirtualUser'
-game:service'Players'.LocalPlayer.Idled:connect(function()
-VirtualUser:CaptureController()
-VirtualUser:ClickButton2(Vector2.new())
-end)
-game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
-
--- Players.LocalPlayer.PlayerScripts["Idle Tracking"].Disabled = true
-
 local function serverHop(id)
     local sfUrl = "https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=%s&limit=%s&excludeFullGames=true"
     local req = request({ Url = string.format(sfUrl, id, "Desc", 100) })
@@ -126,6 +116,14 @@ local niggaJump = coroutine.create(function ()
     end
 end)
 coroutine.resume(niggaJump)
+
+--//Anti AFK
+local VirtualUser=game:service'VirtualUser'
+game:service'Players'.LocalPlayer.Idled:connect(function()
+VirtualUser:CaptureController()
+VirtualUser:ClickButton2(Vector2.new())
+end)
+game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
 game:GetService('RunService'):Set3dRenderingEnabled(false)
 

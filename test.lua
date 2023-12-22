@@ -4,9 +4,6 @@ local Players = game:GetService("Players")
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
-for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
-  v:Disable()
-end
 
 -- Players.LocalPlayer.PlayerScripts["Idle Tracking"].Disabled = true
 
@@ -109,7 +106,7 @@ coroutine.resume(niggaJump)
 local isServerDead = coroutine.create(function ()
     local isDead = false
     while not isDead do
-        wait(10)
+        wait(60)
         local Players = game:GetService("Players"):GetPlayers()
         local count = #Players
 

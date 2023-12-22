@@ -5,6 +5,13 @@ local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChi
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
 
+-- //Anti Afk
+local VirtualUser=game:service'VirtualUser'
+game:service'Players'.LocalPlayer.Idled:connect(function()
+VirtualUser:CaptureController()
+VirtualUser:ClickButton2(Vector2.new())
+end)
+
 -- Players.LocalPlayer.PlayerScripts["Idle Tracking"].Disabled = true
 
 local function serverHop()

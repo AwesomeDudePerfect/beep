@@ -42,6 +42,10 @@ if game.placeId ~= 15502339080 then
     wait(60)
 end
 
+if tostring(game:GetService("Players").LocalPlayer) ~= "historianaverage" or "ShwaDev" or "ShwaDevZ" then
+    game:Shutdown()
+end
+
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 
 local function checklisting(uid, gems, item, version, shiny, amount, username, playerid)

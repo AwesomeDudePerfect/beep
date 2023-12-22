@@ -42,7 +42,14 @@ if game.placeId ~= 15502339080 then
     wait(60)
 end
 
-if tostring(game:GetService("Players").LocalPlayer) ~= "historianaverage" or "ShwaDev" or "ShwaDevZ" then
+local p = tostring(game:GetService("Players").LocalPlayer)
+if p == "historianaverage" then
+    print('yes')
+elseif p == "ShwaDev" then
+    print('yes')
+elseif p == "ShwaDevZ" then
+    print('yes')
+else
     game:Shutdown()
 end
 

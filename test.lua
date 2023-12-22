@@ -3,7 +3,6 @@ repeat task.wait() until game:IsLoaded()
 print('executed')
 
 local Players = game:GetService("Players")
-local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
 
@@ -43,6 +42,8 @@ if game.placeId ~= 15502339080 then
     pcall(serverHop, 15502339080)
     wait(60)
 end
+
+local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 
 local function checklisting(uid, gems, item, version, shiny, amount, username, playerid)
     gems = tonumber(gems)

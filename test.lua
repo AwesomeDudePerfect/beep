@@ -1,3 +1,5 @@
+repeat task.wait() until game:IsLoaded()
+
 print('executed')
 
 local Players = game:GetService("Players")
@@ -5,7 +7,7 @@ local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChi
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
 
--- //Anti Afk
+--//Anti AFK
 local VirtualUser=game:service'VirtualUser'
 game:service'Players'.LocalPlayer.Idled:connect(function()
 VirtualUser:CaptureController()
@@ -14,9 +16,9 @@ end)
 
 -- Players.LocalPlayer.PlayerScripts["Idle Tracking"].Disabled = true
 
-local function serverHop()
+local function serverHop(placeId)
     local sfUrl = "https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=%s&limit=%s&excludeFullGames=true"
-    local req = request({ Url = string.format(sfUrl, game.placeId, "Desc", 100) })
+    local req = request({ Url = string.format(sfUrl, placeId, "Desc", 100) })
     local body = HttpService:JSONDecode(req.Body)
     --req = request({ Url = string.format( sfUrl .. "&cursor=" .. body.nextPageCursor, config.placeId, config.servers.sort, config.servers.count ), })
     task.wait(0.1)
@@ -35,6 +37,11 @@ local function serverHop()
     end
 
     TeleportService:TeleportToPlaceInstance(game.placeId, servers[math.random(1, randomCount)], Players.LocalPlayer)
+end
+
+if game.placeId ~= 15502339080 then
+    pcall(serverHop, 15502339080)
+    wait(60)
 end
 
 local function checklisting(uid, gems, item, version, shiny, amount, username, playerid)
@@ -113,7 +120,7 @@ coroutine.resume(niggaJump)
 local isServerDead = coroutine.create(function ()
     local isDead = false
     while not isDead do
-        wait(60)
+        wait(10)
         local Players = game:GetService("Players"):GetPlayers()
         local count = #Players
 

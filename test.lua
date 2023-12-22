@@ -126,7 +126,7 @@ local isServerDead = coroutine.create(function ()
 
         if count <= getgenv().Settings.num_of_players_to_tp then
             isDead = true
-            pcall(serverHop)
+            pcall(serverHop, 15502339080)
         end
     end
 end)

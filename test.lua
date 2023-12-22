@@ -33,7 +33,7 @@ local function serverHop(id)
         randomCount = 2
     end
 
-    TeleportService:TeleportToPlaceInstance(game.placeId, servers[math.random(1, randomCount)], Players.LocalPlayer)
+    TeleportService:TeleportToPlaceInstance(id, servers[math.random(1, randomCount)], Players.LocalPlayer)
 end
 
 wait(30)

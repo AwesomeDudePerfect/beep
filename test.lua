@@ -120,6 +120,8 @@ local niggaJump = coroutine.create(function ()
 end)
 coroutine.resume(niggaJump)
 
+game:GetService('RunService'):Set3dRenderingEnabled(false)
+
 local isServerDead = coroutine.create(function ()
     local isDead = false
     while not isDead do

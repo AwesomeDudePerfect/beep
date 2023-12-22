@@ -41,6 +41,7 @@ end
 
 if game.placeId ~= 15502339080 then
     pcall(serverHop, 15502339080)
+    wait(60)
 end
 
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")

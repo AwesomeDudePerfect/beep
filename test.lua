@@ -39,6 +39,7 @@ local function serverHop(id)
     TeleportService:TeleportToPlaceInstance(game.placeId, servers[math.random(1, randomCount)], Players.LocalPlayer)
 end
 
+wait(30)
 if game.placeId ~= 15502339080 then
     pcall(serverHop, 15502339080)
     wait(60)

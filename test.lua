@@ -1,4 +1,11 @@
-repeat task.wait() until game:IsLoaded()
+repeat wait() until game:IsLoaded()
+
+if not LPH_OBFUSCATED then
+    LPH_JIT_MAX = function(...) return(...) end;
+    LPH_NO_VIRTUALIZE = function(...) return(...) end;
+end
+
+if not game.PlaceId == 8737899170 or not game.PlaceId == 15502339080 then wait(9e9) end
 
 print('executed')
 

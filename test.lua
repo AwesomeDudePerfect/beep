@@ -1,9 +1,10 @@
 getgenv().Settings = {
-    HugePrice = 1000000, -- HUGE PETS PRICE
-    XLargeChristmasPrice = 25000, -- X LARGE CHRISTMAS PRICE
-    TitanicPresentPrice = 100000, -- TITANIC PRESENT PRICE
-    TitanicPetPrice = 1000000, --TITANIC PET PRICE
-    ExclusivePetPrice = 50000, -- If it has Exclusive (NAMED) on it PRICE
+    --// CHANGE THE NUMBERS BASED ON YOUR LIKING, REMEMBER THAT THE VALUE IS GOING TO BE THE MAX COST TO BUY THE ITEM/PET
+    HugePrice = 1000000,
+    XLargeChristmasPrice = 25000,
+    TitanicPresentPrice = 100000,
+    TitanicPetPrice = 1000000,
+    ExclusivePetPrice = 50000,
     FortunePrice = 500000,
     ChestMimicPrice = 500000,
     LuckyBlockPrice = 200000,

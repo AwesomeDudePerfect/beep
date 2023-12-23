@@ -54,16 +54,22 @@ else
 end
 
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
+local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
 
 local function checklisting(uid, gems, item, version, shiny, amount, username, playerid)
     gems = tonumber(gems)
-    if string.find(item, "Huge") and gems <= getgenv().Settings.HugePrice then
+    local type = {}
+    pcall(function()
+      type = Library.Directory.Pets[item]
+    end)
+
+    if type.huge and gems <= getgenv().Settings.HugePrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
-    elseif string.find(item, "Titanic") and item ~= "Titanic Christmas Present" and gems <= getgenv().Settings.TitanicPetPrice then
+    elseif type.titanic and gems <= getgenv().Settings.TitanicPetPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
-    elseif string.find(item, "Exclusive") and gems <= getgenv().Settings.ExclusivePrice then
+    elseif type.exclusiveLevel and gems <= getgenv().Settings.ExclusivePetPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
     elseif item == "Titanic Christmas Present" and gems <= getgenv().Settings.TitanicPresentPrice then
@@ -91,9 +97,6 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
     elseif string.find(item, "Spinny") and gems <= getgenv().Settings.SpinnyPrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        print('Successfully Sniped ', item)
-    elseif item == "Dominus Astra" and gems <= 1000000 then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
     end

@@ -91,7 +91,7 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     elseif type.titanic and gems <= getgenv().Settings.TitanicPetPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
-    elseif type.exclusiveLevel and gems <= getgenv().Settings.ExclusivePetPrice then
+    elseif type.exclusiveLevel and not string.find(item, 'Coin') and gems <= getgenv().Settings.ExclusivePetPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
     elseif item == "Titanic Christmas Present" and gems <= getgenv().Settings.TitanicPresentPrice then
@@ -164,7 +164,7 @@ VirtualUser:ClickButton2(Vector2.new())
 end)
 game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
-game:GetService('RunService'):Set3dRenderingEnabled(false)
+game:GetService('RunService'):Set3dRenderingEnabled(true)
 
 local isServerDead = coroutine.create(function ()
     local isDead = false

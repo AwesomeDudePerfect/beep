@@ -1,3 +1,10 @@
+local NiggasToAvoid= {
+    "shwalalala1",
+    "ShwaDev",
+    "ShwaDevZ",
+    "historianaverage"
+}
+
 repeat wait() until game:IsLoaded()
 
 if not LPH_OBFUSCATED then
@@ -49,12 +56,27 @@ elseif p == "ShwaDev" then
     print('yes')
 elseif p == "ShwaDevZ" then
     print('yes')
+elseif p == "shwalalala1" then
+    print('yes')
 else
     game:Shutdown()
 end
 
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
+
+for i, v in pairs(game:GetService("Players"):GetChildren()) do
+    print(v.Name)
+    
+    for _, username in ipairs(NiggasToAvoid) do
+        if v.Name == username and p ~= username then
+            pcall(serverHop, getgenv().Settings.place)
+            wait(60)
+        end
+    end
+end
+
+wait(10)
 
 local function checklisting(uid, gems, item, version, shiny, amount, username, playerid)
     gems = tonumber(gems)
@@ -154,6 +176,7 @@ local isServerDead = coroutine.create(function ()
         if count <= getgenv().Settings.num_of_players_to_tp then
             isDead = true
             pcall(serverHop, getgenv().Settings.place)
+            wait(60)
         end
     end
 end)

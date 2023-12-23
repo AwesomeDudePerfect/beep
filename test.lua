@@ -2,7 +2,8 @@ local NiggasToAvoid= {
     "shwalalala1",
     "ShwaDev",
     "ShwaDevZ",
-    "historianaverage"
+    "historianaverage",
+    "ZenkiZenzo0123"
 }
 
 repeat wait() until game:IsLoaded()
@@ -57,6 +58,8 @@ elseif p == "ShwaDev" then
 elseif p == "ShwaDevZ" then
     print('yes')
 elseif p == "shwalalala1" then
+    print('yes')
+elseif p == "ZenkiZenzo0123" then
     print('yes')
 else
     game:Shutdown()

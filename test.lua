@@ -164,7 +164,7 @@ VirtualUser:ClickButton2(Vector2.new())
 end)
 game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
-game:GetService('RunService'):Set3dRenderingEnabled(true)
+game:GetService('RunService'):Set3dRenderingEnabled(false)
 
 local isServerDead = coroutine.create(function ()
     local isDead = false

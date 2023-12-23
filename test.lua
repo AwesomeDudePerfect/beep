@@ -5,7 +5,7 @@ if not LPH_OBFUSCATED then
     LPH_NO_VIRTUALIZE = function(...) return(...) end;
 end
 
-if not game.PlaceId == 8737899170 or not game.PlaceId == 15502339080 then wait(9e9) end
+if not game.PlaceId == 8737899170 or not game.PlaceId == 15502339080 or not game.PlaceId == 15588442388 then wait(9e9) end
 
 print('executed')
 
@@ -37,8 +37,8 @@ local function serverHop(id)
 end
 
 wait(30)
-if game.placeId ~= 15502339080 then
-    pcall(serverHop, 15502339080)
+if game.placeId ~= getgenv().Settings.place then
+    pcall(serverHop, getgenv().Settings.place)
     wait(60)
 end
 
@@ -147,7 +147,7 @@ local isServerDead = coroutine.create(function ()
 
         if count <= getgenv().Settings.num_of_players_to_tp then
             isDead = true
-            pcall(serverHop, 15502339080)
+            pcall(serverHop, getgenv().Settings.place)
         end
     end
 end)

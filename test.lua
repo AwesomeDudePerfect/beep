@@ -26,14 +26,16 @@ local function serverHop(id)
         local sfUrl = "https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=%s&limit=%s"
         local req = request({ Url = string.format(sfUrl, id, "Desc", 100) })
         local body = HttpService:JSONDecode(req.Body)
-        if body.nextPageCursor ~= nil then
-            req = request({ Url = string.format( sfUrl .. "&cursor=" .. body.nextPageCursor, id, "Desc", 100), })
+        if id == 15502339080 then
+            if body.nextPageCursor ~= nil then
+                req = request({ Url = string.format( sfUrl .. "&cursor=" .. body.nextPageCursor, id, "Desc", 100), })
+            end
         end
         task.wait(0.1)
         local servers = {}
         if body and body.data then
             for i, v in next, body.data do
-                if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing >= 35 and v.id ~= game.JobId then
+                if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing >= 35 and v.playing <= 45 and v.id ~= game.JobId then
                     table.insert(servers, 1, v.id)
                 end
             end

@@ -23,10 +23,12 @@ local HttpService = game:GetService("HttpService")
 
 local function serverHop(id)
     repeat
-        local sfUrl = "https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=%s&limit=%s&excludeFullGames=true"
+        local sfUrl = "https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=%s&limit=%s"
         local req = request({ Url = string.format(sfUrl, id, "Desc", 100) })
         local body = HttpService:JSONDecode(req.Body)
-        req = request({ Url = string.format( sfUrl .. "&cursor=" .. body.nextPageCursor, id, "Desc", 100), })
+        if body.nextPageCursor ~= nil then
+            req = request({ Url = string.format( sfUrl .. "&cursor=" .. body.nextPageCursor, id, "Desc", 100), })
+        end
         task.wait(0.1)
         local servers = {}
         if body and body.data then

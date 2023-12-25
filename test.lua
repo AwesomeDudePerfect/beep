@@ -6,6 +6,16 @@ local NiggasToAvoid= {
     "centerunlikely"
 }
 
+local thingsTosnipe = {
+    ["Fortune"] = getgenv().Settings.FortunePrice,
+    ["Chest Mimic"] = getgenv().Settings.ChestMimicPrice,
+    ["Lucky Block"] = getgenv().Settings.LuckyBlockPrice,
+    ["Shiny Hunter"] = getgenv().Settings.ShinyHunterPrice,
+    ["Huge Hunter"] = getgenv().Settings.HugeHunterPrice,
+    ["Titanic Christmas Present"] = getgenv().Settings.TitanicPresentPrice,
+    ["X-Large Christmas Present"] = getgenv().Settings.XLargeChristmasPrice
+}
+
 repeat wait() until game:IsLoaded()
 
 if not LPH_OBFUSCATED then
@@ -103,33 +113,15 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     elseif type.exclusiveLevel and not string.find(item, 'Coin') and not string.find(item, 'Banana') and gems <= getgenv().Settings.ExclusivePetPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
-    elseif item == "Titanic Christmas Present" and gems <= getgenv().Settings.TitanicPresentPrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        print('Successfully Sniped ', item)
-    elseif item == "X-Large Christmas Present" and gems <= getgenv().Settings.XLargeChristmasPrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        print('Successfully Sniped ', item)
-    elseif item == "Fortune" and gems <= getgenv().Settings.FortunePrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        print('Successfully Sniped ', item)
-    elseif item == "Chest Mimic" and gems <= getgenv().Settings.ChestMimicPrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        print('Successfully Sniped ', item)
-    elseif item == "Lucky Block" and gems <= getgenv().Settings.LuckyBlockPrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        print('Successfully Sniped ', item)
-    elseif item == "Shiny Hunter" and gems <= getgenv().Settings.ShinyHunterPrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        print('Successfully Sniped ', item)
-    elseif item == "Huge Hunter" and gems <= getgenv().Settings.HugeHunterPrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        print('Successfully Sniped ', item)
     elseif string.find(item, "Royalty") and gems <= getgenv().Settings.RoyaltyPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
-    elseif string.find(item, "Spinny") and gems <= getgenv().Settings.SpinnyPrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        print('Successfully Sniped ', item)
+    for i, v in pairs(thingsTosnipe) do
+        if item == i and gems <= v then
+            game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+            print('Successfully Sniped ', item)
+        end
+    end
     end
 end
 

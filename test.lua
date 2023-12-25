@@ -125,6 +125,9 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     elseif string.find(item, "Royalty") and gems <= getgenv().Settings.RoyaltyPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
+    elseif string.find(item, "Exclusive") and gems <= 100000 then
+        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        print('Successfully Sniped ', item)
     end
 end
 

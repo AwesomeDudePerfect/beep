@@ -3,7 +3,8 @@ local NiggasToAvoid= {
     "ShwaDev",
     "ShwaDevZ",
     "historianaverage",
-    "centerunlikely"
+    "centerunlikely",
+    "MrIppo"
 }
 
 local thingsTosnipe = {
@@ -76,6 +77,8 @@ elseif p == "ShwaDevZ" then
 elseif p == "shwalalala1" then
     print('yes')
 elseif p == "centerunlikely" then
+    print('yes')
+elseif p == "MrIppo" then
     print('yes')
 else
     game:Shutdown()

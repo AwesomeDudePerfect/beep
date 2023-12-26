@@ -78,6 +78,14 @@ local p = tostring(game:GetService("Players").LocalPlayer)
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
 
+for _, allowedNigga in ipairs(NiggasToAvoid) do
+    if p ~= allowedNigga then
+        game:Shutdown()
+    else
+        print('yes')
+    end
+end
+
 for i, v in pairs(game:GetService("Players"):GetChildren()) do
     print(v.Name)
 
@@ -174,12 +182,6 @@ local function teleport(x, y, z)
     if humanoidRootPart then
         humanoidRootPart.CFrame = CFrame.new(Vector3.new(x, y, z))
     end
-end
-
-if game.Workspace:FindFirstChild("Part") then
-    print("a")
-else
-    print("b")
 end
 
 create_platform(-922, 190, -2338)

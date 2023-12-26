@@ -86,6 +86,10 @@ elseif p == "katsumi" then
     game:Shutdown()
 elseif p == "patrickzxc_123" then
     game:Shutdown()
+elseif p == "prinzemark1028" then
+    game:Shutdown()
+elseif p == "prinzemark1029" then
+    game:Shutdown()
 end
 
 for i, v in pairs(game:GetService("Players"):GetChildren()) do

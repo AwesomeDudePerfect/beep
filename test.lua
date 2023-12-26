@@ -80,7 +80,7 @@ local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
 
 for i, v in pairs(game:GetService("Players"):GetChildren()) do
     print(v.Name)
-    
+
     for _, username in ipairs(NiggasToAvoid) do
         if v.Name == username and p ~= username then
             pcall(serverHop, getgenv().Settings.place)
@@ -122,6 +122,33 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     end
 end
 
+local function create_platform(x, y, z)
+    local p = Instance.new("Part")
+    p.Anchored = true
+    p.Name = "plat"
+    p.Position = Vector3.new(x, y, z)
+    p.Size = Vector3.new(10, 1, 10)
+    p.Parent = game.Workspace
+end
+
+local function teleport(x, y, z)
+    local Players = game:GetService("Players")
+    local LocalPlayer = Players.LocalPlayer
+
+    -- Wait for the character to be available
+    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+
+    if humanoidRootPart then
+        humanoidRootPart.CFrame = CFrame.new(Vector3.new(x, y, z))
+    end
+end
+
+create_platform(-922, 190, -2338)
+wait(0.1)
+teleport(-922, 190, -2338)
+
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     local playerID = message['PlayerID']
     if type(message) == "table" then
@@ -162,7 +189,7 @@ VirtualUser:ClickButton2(Vector2.new())
 end)
 game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
-game:GetService('RunService'):Set3dRenderingEnabled(false)
+game:GetService('RunService'):Set3dRenderingEnabled(true)
 
 local isServerDead = coroutine.create(function ()
     local isDead = false

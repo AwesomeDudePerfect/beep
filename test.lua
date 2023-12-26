@@ -8,25 +8,25 @@ local NiggasToAvoid = {
 }
 
 local thingsTosnipe = {
-    ["Fortune"] = getgenv().Settings.FortunePrice,
-    ["Chest Mimic"] = getgenv().Settings.ChestMimicPrice,
-    ["Lucky Block"] = getgenv().Settings.LuckyBlockPrice,
-    ["Shiny Hunter"] = getgenv().Settings.ShinyHunterPrice,
-    ["Huge Hunter"] = getgenv().Settings.HugeHunterPrice,
-    ["Titanic Christmas Present"] = getgenv().Settings.TitanicPresentPrice,
-    ["X-Large Christmas Present"] = getgenv().Settings.XLargeChristmasPrice
+    ["Fortune"] = getgenv().Settings.Books.FortunePrice,
+    ["Chest Mimic"] = getgenv().Settings.Books.ChestMimicPrice,
+    ["Lucky Block"] = getgenv().Settings.Books.LuckyBlockPrice,
+    ["Shiny Hunter"] = getgenv().Settings.Books.ShinyHunterPrice,
+    ["Huge Hunter"] = getgenv().Settings.Books.HugeHunterPrice,
+    ["Titanic Christmas Present"] = getgenv().Settings.Present.TitanicPresentPrice,
+    ["X-Large Christmas Present"] = getgenv().Settings.Present.XLargeChristmasPrice
 }
 
 local keywords = {
-    ["Royalty"] = getgenv().Settings.RoyaltyPrice,
-    ["Exclusive"] = getgenv().Settings.EggPrice,
-    ["Spinny"]= getgenv().Settings.SpinnyPrice,
-    ["Upper"] = getgenv().Settings.UpperKey,
-    ["Orange"] = getgenv().Settings.Orange,
-    ["Banana"] = getgenv().Settings.Banana,
-    ["Apple"] = getgenv().Settings.Apple,
-    ["Rainbow"] = getgenv().Settings.RainbowFruit,
-    ["Pineapple"] = getgenv().Settings.Pineapple
+    ["Royalty"] = getgenv().Settings.Charm.RoyaltyPrice,
+    ["Exclusive"] = getgenv().Settings.Pets.EggPrice,
+    ["Spinny"]= getgenv().Settings.Other.SpinnyPrice,
+    ["Upper"] = getgenv().Settings.Other.UpperKey,
+    ["Orange"] = getgenv().Settings.Fruits.Orange,
+    ["Banana"] = getgenv().Settings.Fruits.Banana,
+    ["Apple"] = getgenv().Settings.Fruits.Apple,
+    ["Rainbow"] = getgenv().Settings.Fruits.RainbowFruit,
+    ["Pineapple"] = getgenv().Settings.Fruits.Pineapple
 }
 
 repeat wait() until game:IsLoaded()
@@ -114,13 +114,13 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
       type = Library.Directory.Pets[item]
     end)
     
-    if type.huge and gems <= getgenv().Settings.HugePrice then
+    if type.huge and gems <= getgenv().Settings.Pets.HugePrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
-    elseif type.titanic and gems <= getgenv().Settings.TitanicPetPrice then
+    elseif type.titanic and gems <= getgenv().Settings.Pets.TitanicPetPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
-    elseif type.exclusiveLevel and not string.find(item, 'Coin') and not string.find(item, 'Banana') and gems <= getgenv().Settings.ExclusivePetPrice then
+    elseif type.exclusiveLevel and not string.find(item, 'Coin') and not string.find(item, 'Banana') and gems <= getgenv().Settings.Pets.ExclusivePetPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
     end

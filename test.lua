@@ -150,7 +150,6 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     for i, v in pairs(keywords) do
         if string.find(item, i) and gems <= v then
             game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-            sendUpdate(getgenv().Settings.webhook, p, item, gems)
             print('Successfully Sniped ', item)
         end
     end

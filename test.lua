@@ -1,4 +1,7 @@
 local NiggasToAvoid = {
+    "007jimm",
+    "SuzumoMalaki",
+    "SuzukoMalaki",
     "shwalalala1",
     "ShwaDev",
     "ShwaDevZ",
@@ -89,8 +92,6 @@ for i, v in pairs(game:GetService("Players"):GetChildren()) do
     end
 end
 
-wait(10)
-
 local function checklisting(uid, gems, item, version, shiny, amount, username, playerid)
     gems = tonumber(gems)
     local type = {}
@@ -146,7 +147,7 @@ local function teleport(x, y, z)
 end
 
 create_platform(-922, 190, -2338)
-wait(0.1)
+wait(3)
 teleport(-922, 190, -2338)
 
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)

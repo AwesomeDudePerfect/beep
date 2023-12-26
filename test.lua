@@ -105,6 +105,13 @@ local function formatNumber(number)
     return tostring(number):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
 end
 
+local function buyItem(playerid, uid)
+    local success, errorMessage = pcall(function ()
+        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+    end)
+    return success
+end
+
 local function sendUpdate(webhook, user, item, gems)
     local message = {
         ['content'] = "@everyone",
@@ -135,28 +142,44 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     end)
     
     if type.huge and gems <= getgenv().Settings.Pets.HugePrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        sendUpdate(getgenv().Settings.webhook, p, item, gems)
+        buyItem(playerid, uid)
+        if buyItem then
+            sendUpdate(getgenv().Settings.webhook, p, item, gems)
+        else
+            print('failed to snipe')
+        end
         print('Successfully Sniped ', item)
     elseif type.titanic and gems <= getgenv().Settings.Pets.TitanicPetPrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        sendUpdate(getgenv().Settings.webhook, p, item, gems)
+        buyItem(playerid, uid)
+        if buyItem then
+            sendUpdate(getgenv().Settings.webhook, p, item, gems)
+        else
+            print('failed to snipe')
+        end
         print('Successfully Sniped ', item)
     elseif type.exclusiveLevel and not string.find(item, 'Coin') and not string.find(item, 'Banana') and gems <= getgenv().Settings.Pets.ExclusivePetPrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        sendUpdate(getgenv().Settings.webhook, p, item, gems)
+        buyItem(playerid, uid)
+        if buyItem then
+            sendUpdate(getgenv().Settings.webhook, p, item, gems)
+        else
+            print('failed to snipe')
+        end
         print('Successfully Sniped ', item)
     end
     for i, v in pairs(keywords) do
         if string.find(item, i) and gems <= v then
-            game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+            buyItem(playerid, uid)
             print('Successfully Sniped ', item)
         end
     end
     for i, v in pairs(thingsTosnipe) do
         if item == i and gems <= v then
-            game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-            sendUpdate(getgenv().Settings.webhook, p, item, gems)
+            buyItem(playerid, uid)
+            if buyItem then
+                sendUpdate(getgenv().Settings.webhook, p, item, gems)
+            else
+                print('failed to snipe')
+            end
             print('Successfully Sniped ', item)
         end
     end
@@ -186,7 +209,10 @@ local function teleport(x, y, z)
 end
 
 create_platform(-922, 190, -2338)
-wait(10)
+local aa = game.Workspace:FindFirstChild("plat")
+repeat
+    wait()
+until aa ~= nil
 teleport(-922, 195, -2338)
 
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)

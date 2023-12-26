@@ -1,4 +1,4 @@
-local NiggasToAvoid= {
+local NiggasToAvoid = {
     "shwalalala1",
     "ShwaDev",
     "ShwaDevZ",
@@ -17,12 +17,19 @@ local thingsTosnipe = {
     ["X-Large Christmas Present"] = getgenv().Settings.XLargeChristmasPrice
 }
 
-repeat wait() until game:IsLoaded()
+local keywords = {
+    ["Royalty"] = getgenv().Settings.RoyaltyPrice,
+    ["Exclusive"] = getgenv().Settings.EggPrice,
+    ["Spinny"]= getgenv().Settings.SpinnyPrice,
+    ["Upper"] = getgenv().Settings.UpperKey,
+    ["Orange"] = getgenv().Settings.Orange,
+    ["Banana"] = getgenv().Settings.Banana,
+    ["Apple"] = getgenv().Settings.Apple,
+    ["Rainbow"] = getgenv().Settings.RainbowFruit,
+    ["Pineapple"] = getgenv().Settings.Pineapple
+}
 
-if not LPH_OBFUSCATED then
-    LPH_JIT_MAX = function(...) return(...) end;
-    LPH_NO_VIRTUALIZE = function(...) return(...) end;
-end
+repeat wait() until game:IsLoaded()
 
 if not game.PlaceId == 8737899170 or not game.PlaceId == 15502339080 or not game.PlaceId == 15588442388 then wait(9e9) end
 
@@ -46,7 +53,7 @@ local function serverHop(id)
         local servers = {}
         if body and body.data then
             for i, v in next, body.data do
-                if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing >= 35 and v.playing <= 45 and v.id ~= game.JobId then
+                if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing >= math.random(30,35) and v.playing <= math.random(40,45) and v.id ~= game.JobId then
                     table.insert(servers, 1, v.id)
                 end
             end
@@ -61,13 +68,13 @@ local function serverHop(id)
     until game.placeId ~= 8737899170
 end
 
-wait(30)
+wait(20)
 if game.placeId ~= getgenv().Settings.place then
     pcall(serverHop, getgenv().Settings.place)
     wait(60)
 end
 
-local p = tostring(game:GetService("Players").LocalPlayer)
+--[[ local p = tostring(game:GetService("Players").LocalPlayer)
 if p == "historianaverage" then
     print('yes')
 elseif p == "ShwaDev" then
@@ -82,7 +89,7 @@ elseif p == "MrIppo" then
     print('yes')
 else
     game:Shutdown()
-end
+end ]]
 
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
@@ -116,12 +123,12 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     elseif type.exclusiveLevel and not string.find(item, 'Coin') and not string.find(item, 'Banana') and gems <= getgenv().Settings.ExclusivePetPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
-    elseif string.find(item, "Royalty") and gems <= getgenv().Settings.RoyaltyPrice then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        print('Successfully Sniped ', item)
-    elseif string.find(item, "Exclusive") and gems <= 100000 then
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-        print('Successfully Sniped ', item)
+    end
+    for i, v in pairs(keywords) do
+        if string.find(item, i) and gems <= v then
+            game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+            print('Successfully Sniped ', item)
+        end
     end
     for i, v in pairs(thingsTosnipe) do
         if item == i and gems <= v then

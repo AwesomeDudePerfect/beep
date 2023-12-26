@@ -74,19 +74,20 @@ if game.placeId ~= getgenv().Settings.place then
     wait(60)
 end
 
+local p = tostring(game:GetService("Players").LocalPlayer)
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
 
---for i, v in pairs(game:GetService("Players"):GetChildren()) do
---    print(v.Name)
+for i, v in pairs(game:GetService("Players"):GetChildren()) do
+    print(v.Name)
     
---    for _, username in ipairs(NiggasToAvoid) do
---        if v.Name == username and p ~= username then
---            pcall(serverHop, getgenv().Settings.place)
---            wait(60)
---        end
---    end
---end
+    for _, username in ipairs(NiggasToAvoid) do
+        if v.Name == username and p ~= username then
+            pcall(serverHop, getgenv().Settings.place)
+            wait(60)
+        end
+    end
+end
 
 wait(10)
 

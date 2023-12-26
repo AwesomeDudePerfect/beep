@@ -218,25 +218,24 @@ teleport(-922, 195, -2338)
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     if message ~= nil then
         if type(message) == "table" then
-            local playerID = message['PlayerID']
+			local playerID = message['PlayerID']
             local listing = message["Listings"]
             for key, value in pairs(listing) do
-                if type(value) == "table" then
-                    local uid = key
-                    local gems = value["DiamondCost"]
-                    local itemdata = value["ItemData"]
-                    if itemdata then
-                        local data = itemdata["data"]
-                        if data then
-                            local item = data["id"]
-                            checklisting(uid, gems, item, playerID)
-                        end
+                local uid = key
+                local gems = value["DiamondCost"]
+                local itemdata = value["ItemData"]
+                if itemdata then
+                    local data = itemdata["data"]
+                    if data then
+                        local item = data["id"]
+                        checklisting(uid, gems, item, playerID)
                     end
                 end
             end
         end
     end
 end)
+
 
 local niggaJump = coroutine.create(function ()
     while 1 do

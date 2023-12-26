@@ -106,13 +106,7 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     pcall(function()
       type = Library.Directory.Pets[item]
     end)
-
-    for i, v in pairs(thingsTosnipe) do
-        if item == i and gems <= v then
-            game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-            print('Successfully Sniped ', item)
-        end
-    end
+    
     if type.huge and gems <= getgenv().Settings.HugePrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
@@ -128,6 +122,12 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     elseif string.find(item, "Exclusive") and gems <= 100000 then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
         print('Successfully Sniped ', item)
+    end
+    for i, v in pairs(thingsTosnipe) do
+        if item == i and gems <= v then
+            game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+            print('Successfully Sniped ', item)
+        end
     end
 end
 

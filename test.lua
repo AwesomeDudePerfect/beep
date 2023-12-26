@@ -86,10 +86,6 @@ elseif p == "katsumi" then
     game:Shutdown()
 elseif p == "patrickzxc_123" then
     game:Shutdown()
-elseif p == "prinzemark1028" then
-    game:Shutdown()
-elseif p == "prinzemark1029" then
-    game:Shutdown()
 end
 
 for i, v in pairs(game:GetService("Players"):GetChildren()) do
@@ -127,7 +123,7 @@ local function sendUpdate(webhook, user, item, gems)
                 ['fields'] = {
                     {
                         ['name'] = "**"..user.." sniped: "..item.."**",
-                        ['value'] = ":gem:: "..formatNumber(gems).."",
+                        ['value'] = "cost: "..formatNumber(gems).."",
                     }
                 },
             },
@@ -138,7 +134,7 @@ local function sendUpdate(webhook, user, item, gems)
     http:PostAsync(webhook, jsonMessage)
 end
 
-local function checklisting(uid, gems, item, version, shiny, amount, username, playerid)
+local function checklisting(uid, gems, item, playerid)
     gems = tonumber(gems)
     local type = {}
     pcall(function()
@@ -219,23 +215,23 @@ repeat
 until aa ~= nil
 teleport(-922, 195, -2338)
 
+local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)
-    local playerID = message['PlayerID']
-    if type(message) == "table" then
-        local listing = message["Listings"]
-        for key, value in pairs(listing) do
-            if type(value) == "table" then
-                local uid = key
-                local gems = value["DiamondCost"]
-                local itemdata = value["ItemData"]
-                if itemdata then
-                    local data = itemdata["data"]
-                    if data then
-                        local item = data["id"]
-                        local version = data["pt"]
-                        local shiny = data["sh"]
-                        local amount = data["_am"]
-                        checklisting(uid, gems, item, version, shiny, amount, username , playerID)
+    if message ~= nil then
+        local playerID = message['PlayerID']
+        if type(message) == "table" then
+            local listing = message["Listings"]
+            for key, value in pairs(listing) do
+                if type(value) == "table" then
+                    local uid = key
+                    local gems = value["DiamondCost"]
+                    local itemdata = value["ItemData"]
+                    if itemdata then
+                        local data = itemdata["data"]
+                        if data then
+                            local item = data["id"]
+                            checklisting(uid, gems, item, playerID)
+                        end
                     end
                 end
             end
@@ -259,7 +255,7 @@ VirtualUser:ClickButton2(Vector2.new())
 end)
 game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
-game:GetService('RunService'):Set3dRenderingEnabled(false)
+game:GetService('RunService'):Set3dRenderingEnabled(true)
 
 local isServerDead = coroutine.create(function ()
     local isDead = false

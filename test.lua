@@ -79,10 +79,10 @@ local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChi
 local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
 
 for _, allowedNigga in ipairs(NiggasToAvoid) do
-    if p ~= allowedNigga then
-        game:Shutdown()
-    else
+    if p == allowedNigga then
         print('yes')
+    else
+        game:Shutdown()
     end
 end
 

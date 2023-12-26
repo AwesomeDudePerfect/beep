@@ -127,7 +127,7 @@ local function sendUpdate(webhook, user, item, gems)
                 ['fields'] = {
                     {
                         ['name'] = "**"..user.." sniped: "..item.."**",
-                        ['value'] = "cost: "..formatNumber(gems).."",
+                        ['value'] = ":gem:: "..formatNumber(gems).."",
                     }
                 },
             },

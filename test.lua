@@ -115,7 +115,7 @@ local function sendUpdate(webhook, user, item, gems)
                 ["timestamp"] = DateTime.now():ToIsoDate(),
                 ['fields'] = {
                     {
-                        ['name'] = "**"..user.." sniped: "..item"**",
+                        ['name'] = "**"..user.." sniped: "..item.."**",
                         ['value'] = "cost: "..formatNumber(gems).."",
                     }
                 },

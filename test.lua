@@ -147,7 +147,7 @@ local function teleport(x, y, z)
 end
 
 create_platform(-922, 190, -2338)
-wait(3)
+wait(10)
 teleport(-922, 200, -2338)
 
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)

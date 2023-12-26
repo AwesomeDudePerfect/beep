@@ -215,7 +215,6 @@ repeat
 until aa ~= nil
 teleport(-922, 195, -2338)
 
-local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     if message ~= nil then
         local playerID = message['PlayerID']

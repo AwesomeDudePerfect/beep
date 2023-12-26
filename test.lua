@@ -246,12 +246,12 @@ local niggaJump = coroutine.create(function ()
 end)
 coroutine.resume(niggaJump)
 
---//Anti AFK
 local VirtualUser=game:service'VirtualUser'
 game:service'Players'.LocalPlayer.Idled:connect(function()
 VirtualUser:CaptureController()
 VirtualUser:ClickButton2(Vector2.new())
 end)
+
 game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
 game:GetService('RunService'):Set3dRenderingEnabled(false)

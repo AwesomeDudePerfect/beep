@@ -78,12 +78,14 @@ local p = tostring(game:GetService("Players").LocalPlayer)
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
 
-for _, allowedNigga in ipairs(NiggasToAvoid) do
-    if p == allowedNigga then
-        print('yes')
-    else
-        game:Shutdown()
-    end
+if p == "prinzemark1026" then
+    game:Shutdown()
+elseif p == "Aubreeunicorn1" then
+    game:Shutdown()
+elseif p == "katsumi" then
+    game:Shutdown()
+elseif p == "patrickzxc_123" then
+    game:Shutdown()
 end
 
 for i, v in pairs(game:GetService("Players"):GetChildren()) do

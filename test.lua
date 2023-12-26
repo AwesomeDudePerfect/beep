@@ -1,7 +1,4 @@
 local NiggasToAvoid = {
-    "007jimm",
-    "SuzumoMalaki",
-    "SuzukoMalaki",
     "shwalalala1",
     "ShwaDev",
     "ShwaDevZ",
@@ -92,6 +89,34 @@ for i, v in pairs(game:GetService("Players"):GetChildren()) do
     end
 end
 
+wait(10)
+
+local function formatNumber(number)
+    return tostring(number):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
+end
+
+local function sendUpdate(webhook, user, item, gems)
+    local message = {
+        ['content'] = "@everyone",
+        ['embeds'] = {
+            {
+                ['title'] = "Sniped!",
+                ["color"] = tonumber(0x32CD32),
+                ["timestamp"] = DateTime.now():ToIsoDate(),
+                ['fields'] = {
+                    {
+                        ['name'] = "**"..user.." sniped: "..item"**",
+                        ['value'] = "cost: "..formatNumber(gems).."",
+                    }
+                },
+            },
+        }
+    }
+    local http = game:GetService("HttpService")
+    local jsonMessage = http:JSONEncode(message)
+    http:PostAsync(webhook, jsonMessage)
+end
+
 local function checklisting(uid, gems, item, version, shiny, amount, username, playerid)
     gems = tonumber(gems)
     local type = {}
@@ -101,23 +126,28 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     
     if type.huge and gems <= getgenv().Settings.Pets.HugePrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        sendUpdate(getgenv().Settings.webhook, p, item, gems)
         print('Successfully Sniped ', item)
     elseif type.titanic and gems <= getgenv().Settings.Pets.TitanicPetPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        sendUpdate(getgenv().Settings.webhook, p, item, gems)
         print('Successfully Sniped ', item)
     elseif type.exclusiveLevel and not string.find(item, 'Coin') and not string.find(item, 'Banana') and gems <= getgenv().Settings.Pets.ExclusivePetPrice then
         game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+        sendUpdate(getgenv().Settings.webhook, p, item, gems)
         print('Successfully Sniped ', item)
     end
     for i, v in pairs(keywords) do
         if string.find(item, i) and gems <= v then
             game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+            sendUpdate(getgenv().Settings.webhook, p, item, gems)
             print('Successfully Sniped ', item)
         end
     end
     for i, v in pairs(thingsTosnipe) do
         if item == i and gems <= v then
             game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+            sendUpdate(getgenv().Settings.webhook, p, item, gems)
             print('Successfully Sniped ', item)
         end
     end
@@ -146,9 +176,15 @@ local function teleport(x, y, z)
     end
 end
 
+if game.Workspace:FindFirstChild("Part") then
+    print("a")
+else
+    print("b")
+end
+
 create_platform(-922, 190, -2338)
-wait(10)
-teleport(-922, 200, -2338)
+wait(1)
+teleport(-922, 190, -2338)
 
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     local playerID = message['PlayerID']
@@ -190,7 +226,7 @@ VirtualUser:ClickButton2(Vector2.new())
 end)
 game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
-game:GetService('RunService'):Set3dRenderingEnabled(false)
+game:GetService('RunService'):Set3dRenderingEnabled(true)
 
 local isServerDead = coroutine.create(function ()
     local isDead = false

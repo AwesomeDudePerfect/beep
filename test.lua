@@ -106,9 +106,7 @@ local function formatNumber(number)
 end
 
 local function buyItem(playerid, uid)
-    local success, errorMessage = pcall(function ()
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-    end)
+    local success, errorMessage = game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
     return success
 end
 
@@ -142,24 +140,24 @@ local function checklisting(uid, gems, item, playerid)
     end)
     
     if type.huge and gems <= getgenv().Settings.Pets.HugePrice then
-        buyItem(playerid, uid)
-        if buyItem then
+        local shwa = buyItem(playerid, uid)
+        if shwa then
             sendUpdate(getgenv().Settings.webhook, p, item, gems)
         else
             print('failed to snipe')
         end
         print('Successfully Sniped ', item)
     elseif type.titanic and gems <= getgenv().Settings.Pets.TitanicPetPrice then
-        buyItem(playerid, uid)
-        if buyItem then
+        local shwa = buyItem(playerid, uid)
+        if shwa then
             sendUpdate(getgenv().Settings.webhook, p, item, gems)
         else
             print('failed to snipe')
         end
         print('Successfully Sniped ', item)
     elseif type.exclusiveLevel and not string.find(item, 'Coin') and not string.find(item, 'Banana') and gems <= getgenv().Settings.Pets.ExclusivePetPrice then
-        buyItem(playerid, uid)
-        if buyItem then
+        local shwa = buyItem(playerid, uid)
+        if shwa then
             sendUpdate(getgenv().Settings.webhook, p, item, gems)
         else
             print('failed to snipe')
@@ -174,8 +172,8 @@ local function checklisting(uid, gems, item, playerid)
     end
     for i, v in pairs(thingsTosnipe) do
         if item == i and gems <= v then
-            buyItem(playerid, uid)
-            if buyItem then
+            local shwa = buyItem(playerid, uid)
+            if shwa then
                 sendUpdate(getgenv().Settings.webhook, p, item, gems)
             else
                 print('failed to snipe')

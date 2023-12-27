@@ -53,7 +53,7 @@ local function serverHop(id)
         local servers = {}
         if body and body.data then
             for i, v in next, body.data do
-                if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing >= math.random(40, 45) and v.ping <= 80 and v.id ~= game.JobId then
+                if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing >= math.random(40, 45) and v.id ~= game.JobId then
                     table.insert(servers, 1, v.id)
                 end
             end
@@ -78,16 +78,6 @@ local p = tostring(game:GetService("Players").LocalPlayer)
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
 
-if p == "prinzemark1026" then
-    game:Shutdown()
-elseif p == "Aubreeunicorn1" then
-    game:Shutdown()
-elseif p == "katsumi" then
-    game:Shutdown()
-elseif p == "patrickzxc_123" then
-    game:Shutdown()
-end
-
 for i, v in pairs(game:GetService("Players"):GetChildren()) do
     print(v.Name)
 
@@ -106,13 +96,12 @@ local function formatNumber(number)
 end
 
 local function buyItem(playerid, uid)
-    local success, errorMessage = pcall(function ()
-        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-    end)
+    local success = game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
     return success
 end
 
 local function sendUpdate(webhook, user, item, gems, isSniped)
+    local gemamount = tonumber(game:GetService("Players").LocalPlayer.leaderstats["💎 Diamonds"].Value)
     local message = {
         ['content'] = "@everyone",
         ['embeds'] = {
@@ -123,15 +112,22 @@ local function sendUpdate(webhook, user, item, gems, isSniped)
                 ['fields'] = {
                     {
                         ['name'] = "**USER:**",
-                        ['value'] = tostring(user)
+                        ['value'] = tostring(user),
+                        ['inline'] = true
                     },
                     {
                         ['name'] = "**ITEM:**",
-                        ['value'] = tostring(item)
+                        ['value'] = tostring(item),
+                        ['inline'] = true
                     },
                     {
                         ['name'] = "**COST:**",
-                        ['value'] = formatNumber(gems)
+                        ['value'] = formatNumber(gems),
+                        ['inline'] = true
+                    },
+                    {
+                        ['name'] = "**REMAINING :gem:: **",
+                        ['value'] = formatNumber(gemamount)
                     }
                 }
             }
@@ -159,7 +155,7 @@ local function sendUpdate(webhook, user, item, gems, isSniped)
         }
     }
 
-    if tostring(isSniped) == "true" then
+    if isSniped == true then
         local jsonMessage = HttpService:JSONEncode(message)
         HttpService:PostAsync(webhook, jsonMessage)
     else
@@ -177,28 +173,16 @@ local function checklisting(uid, gems, item, playerid)
     
     if type.huge and gems <= getgenv().Settings.Pets.HugePrice then
         local shwa = buyItem(playerid, uid)
-        if shwa then
-            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
-            print('Successfully Sniped ', item)
-        else
-            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
-        end
+        sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
+        print('Successfully Sniped ', item)
     elseif type.titanic and gems <= getgenv().Settings.Pets.TitanicPetPrice then
         local shwa = buyItem(playerid, uid)
-        if shwa then
-            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
-            print('Successfully Sniped ', item)
-        else
-            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
-        end
+        sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
+        print('Successfully Sniped ', item)
     elseif type.exclusiveLevel and not string.find(item, 'Coin') and not string.find(item, 'Banana') and gems <= getgenv().Settings.Pets.ExclusivePetPrice then
         local shwa = buyItem(playerid, uid)
-        if shwa then
-            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
-            print('Successfully Sniped ', item)
-        else
-            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
-        end
+        sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
+        print('Successfully Sniped ', item)
     end
     for i, v in pairs(keywords) do
         if string.find(item, i) and gems <= v then
@@ -209,12 +193,8 @@ local function checklisting(uid, gems, item, playerid)
     for i, v in pairs(thingsTosnipe) do
         if item == i and gems <= v then
             local shwa = buyItem(playerid, uid)
-            if shwa then
-                sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
-                print('Successfully Sniped ', item)
-            else
-                sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
-            end
+            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
+            print('Successfully Sniped ', item)
         end
     end
 end

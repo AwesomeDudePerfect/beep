@@ -53,7 +53,7 @@ local function serverHop(id)
         local servers = {}
         if body and body.data then
             for i, v in next, body.data do
-                if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing >= math.random(30,35) and v.playing <= math.random(40,45) and v.id ~= game.JobId then
+                if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing >= math.random(40, 45) and v.id ~= game.JobId then
                     table.insert(servers, 1, v.id)
                 end
             end
@@ -110,7 +110,7 @@ local function buyItem(playerid, uid)
     return success
 end
 
-local function sendUpdate(webhook, user, item, gems)
+local function sendUpdate(webhook, user, item, gems, isSniped)
     local message = {
         ['content'] = "@everyone",
         ['embeds'] = {
@@ -120,16 +120,50 @@ local function sendUpdate(webhook, user, item, gems)
                 ["timestamp"] = DateTime.now():ToIsoDate(),
                 ['fields'] = {
                     {
-                        ['name'] = "**"..user.." sniped: "..item.."**",
-                        ['value'] = "cost: "..formatNumber(gems).."",
-                    }
-                },
-            },
+                        ['name'] = "**USER:**",
+                        ['value'] = tostring(user)
+                    },
+                    {
+                        ['name'] = "**ITEM:**",
+                        ['value'] = tostring(item)
+                    },
+                    {
+                        ['name'] = "**COST:**",
+                        ['value'] = formatNumber(gems)
+                    },
+                }
+            }
         }
     }
-    local http = game:GetService("HttpService")
-    local jsonMessage = http:JSONEncode(message)
-    http:PostAsync(webhook, jsonMessage)
+
+    local messageFail = {
+        ['content'] = "",
+        ['embeds'] = {
+            {
+                ['title'] = "Failed to Snipe!",
+                ["color"] = tonumber(0xFF0000),
+                ["timestamp"] = DateTime.now():ToIsoDate(),
+                ['fields'] = {
+                    {
+                        ['name'] = "**ITEM:**",
+                        ['value'] = tostring(item)
+                    },
+                    {
+                        ['name'] = "**COST:**",
+                        ['value'] = tostring(gems)
+                    }
+                }
+            }
+        }
+    }
+
+    if isSniped then
+        local jsonMessage = HttpService:JSONEncode(message)
+        HttpService:PostAsync(webhook, jsonMessage)
+    else
+        local jsonMessage = HttpService:JSONEncode(messageFail)
+        HttpService:PostAsync(webhook, jsonMessage)
+    end
 end
 
 local function checklisting(uid, gems, item, playerid)
@@ -141,27 +175,15 @@ local function checklisting(uid, gems, item, playerid)
     
     if type.huge and gems <= getgenv().Settings.Pets.HugePrice then
         local shwa = buyItem(playerid, uid)
-        if shwa then
-            sendUpdate(getgenv().Settings.webhook, p, item, gems)
-        else
-            print('failed to snipe')
-        end
+        sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
         print('Successfully Sniped ', item)
     elseif type.titanic and gems <= getgenv().Settings.Pets.TitanicPetPrice then
         local shwa = buyItem(playerid, uid)
-        if shwa then
-            sendUpdate(getgenv().Settings.webhook, p, item, gems)
-        else
-            print('failed to snipe')
-        end
+        sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
         print('Successfully Sniped ', item)
     elseif type.exclusiveLevel and not string.find(item, 'Coin') and not string.find(item, 'Banana') and gems <= getgenv().Settings.Pets.ExclusivePetPrice then
         local shwa = buyItem(playerid, uid)
-        if shwa then
-            sendUpdate(getgenv().Settings.webhook, p, item, gems)
-        else
-            print('failed to snipe')
-        end
+        sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
         print('Successfully Sniped ', item)
     end
     for i, v in pairs(keywords) do
@@ -173,11 +195,7 @@ local function checklisting(uid, gems, item, playerid)
     for i, v in pairs(thingsTosnipe) do
         if item == i and gems <= v then
             local shwa = buyItem(playerid, uid)
-            if shwa then
-                sendUpdate(getgenv().Settings.webhook, p, item, gems)
-            else
-                print('failed to snipe')
-            end
+            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
             print('Successfully Sniped ', item)
         end
     end
@@ -216,7 +234,7 @@ teleport(-922, 195, -2338)
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     if message ~= nil then
         if type(message) == "table" then
-	    local playerID = message['PlayerID']
+			local playerID = message['PlayerID']
             local listing = message["Listings"]
             for key, value in pairs(listing) do
                 if type(value) == "table" then
@@ -236,7 +254,6 @@ Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     end
 end)
 
-
 local niggaJump = coroutine.create(function ()
     while 1 do
         wait(5)
@@ -245,12 +262,12 @@ local niggaJump = coroutine.create(function ()
 end)
 coroutine.resume(niggaJump)
 
+--//Anti AFK
 local VirtualUser=game:service'VirtualUser'
 game:service'Players'.LocalPlayer.Idled:connect(function()
 VirtualUser:CaptureController()
 VirtualUser:ClickButton2(Vector2.new())
 end)
-
 game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
 game:GetService('RunService'):Set3dRenderingEnabled(false)

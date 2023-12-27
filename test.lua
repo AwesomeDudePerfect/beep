@@ -106,7 +106,9 @@ local function formatNumber(number)
 end
 
 local function buyItem(playerid, uid)
-    local success, errorMessage = game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+    local success, errorMessage = pcall(function ()
+        game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
+    end)
     return success
 end
 

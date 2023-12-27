@@ -289,4 +289,7 @@ end)
 coroutine.resume(isServerDead)
 
 wait(2400)
-pcall(serverHop, getgenv().Settings.place)
+repeat
+    pcall(serverHop, getgenv().Settings.place)
+    wait(5)
+until game.placeId ~= getgenv().Settings.place

@@ -221,14 +221,16 @@ Booths_Broadcast.OnClientEvent:Connect(function(username, message)
 			local playerID = message['PlayerID']
             local listing = message["Listings"]
             for key, value in pairs(listing) do
-                local uid = key
-                local gems = value["DiamondCost"]
-                local itemdata = value["ItemData"]
-                if itemdata then
-                    local data = itemdata["data"]
-                    if data then
-                        local item = data["id"]
-                        checklisting(uid, gems, item, playerID)
+                if type(value) == "table" then
+                    local uid = key
+                    local gems = value["DiamondCost"]
+                    local itemdata = value["ItemData"]
+                    if itemdata then
+                        local data = itemdata["data"]
+                        if data then
+                            local item = data["id"]
+                            checklisting(uid, gems, item, playerID)
+                        end
                     end
                 end
             end

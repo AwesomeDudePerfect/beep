@@ -98,6 +98,7 @@ end
 local function buyItem(playerid, uid)
     local success = game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
     print(success)
+    print(type(success))
     return success
 end
 

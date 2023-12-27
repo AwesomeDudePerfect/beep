@@ -130,7 +130,7 @@ local function sendUpdate(webhook, user, item, gems, isSniped)
                     {
                         ['name'] = "**COST:**",
                         ['value'] = formatNumber(gems)
-                    },
+                    }
                 }
             }
         }
@@ -150,14 +150,14 @@ local function sendUpdate(webhook, user, item, gems, isSniped)
                     },
                     {
                         ['name'] = "**COST:**",
-                        ['value'] = tostring(gems)
+                        ['value'] = formatNumber(gems)
                     }
                 }
             }
         }
     }
 
-    if isSniped then
+    if tostring(isSniped) == "true" then
         local jsonMessage = HttpService:JSONEncode(message)
         HttpService:PostAsync(webhook, jsonMessage)
     else

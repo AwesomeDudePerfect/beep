@@ -178,20 +178,26 @@ local function checklisting(uid, gems, item, playerid)
     if type.huge and gems <= getgenv().Settings.Pets.HugePrice then
         local shwa = buyItem(playerid, uid)
         if shwa then
-            sendUpdate(getgenv().Settings.webhook, p, item, gems)
+            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
             print('Successfully Sniped ', item)
+        else
+            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
         end
     elseif type.titanic and gems <= getgenv().Settings.Pets.TitanicPetPrice then
         local shwa = buyItem(playerid, uid)
         if shwa then
-            sendUpdate(getgenv().Settings.webhook, p, item, gems)
+            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
             print('Successfully Sniped ', item)
+        else
+            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
         end
     elseif type.exclusiveLevel and not string.find(item, 'Coin') and not string.find(item, 'Banana') and gems <= getgenv().Settings.Pets.ExclusivePetPrice then
         local shwa = buyItem(playerid, uid)
         if shwa then
-            sendUpdate(getgenv().Settings.webhook, p, item, gems)
+            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
             print('Successfully Sniped ', item)
+        else
+            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
         end
     end
     for i, v in pairs(keywords) do
@@ -204,8 +210,10 @@ local function checklisting(uid, gems, item, playerid)
         if item == i and gems <= v then
             local shwa = buyItem(playerid, uid)
             if shwa then
-                sendUpdate(getgenv().Settings.webhook, p, item, gems)
+                sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
                 print('Successfully Sniped ', item)
+            else
+                sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
             end
         end
     end

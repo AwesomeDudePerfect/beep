@@ -75,6 +75,8 @@ if game.placeId ~= getgenv().Settings.place then
     wait(60)
 end
 
+wait(20)
+
 --//AVOID ALTS
 for i, v in pairs(game:GetService("Players"):GetChildren()) do
     for _, username in ipairs(NiggasToAvoid) do

@@ -155,6 +155,11 @@ local function sendUpdate(webhook, user, item, gems, version, isSniped, timeTook
                         ['inline'] = true
                     },
                     {
+                        ['name'] = "**PET VERSION:**",
+                        ['value'] = "Normal",
+                        ['inline'] = true
+                    },
+                    {
                         ['name'] = "**COST:**",
                         ['value'] = formatNumber(gems),
                         ['inline'] = true

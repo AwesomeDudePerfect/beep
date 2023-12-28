@@ -125,7 +125,12 @@ local function sendUpdate(webhook, user, item, gems, version, isSniped)
                     },
                     {
                         ['name'] = "**ITEM:**",
-                        ['value'] = version .. tostring(item),
+                        ['value'] = tostring(item),
+                        ['inline'] = true
+                    },
+                    {
+                        ['name'] = "**PET VERSION:**",
+                        ['value'] = tostring(version),
                         ['inline'] = true
                     },
                     {

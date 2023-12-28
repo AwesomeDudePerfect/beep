@@ -22,11 +22,7 @@ local keywords = {
     ["Exclusive"] = getgenv().Settings.Pets.EggPrice,
     ["Spinny"]= getgenv().Settings.Other.SpinnyPrice,
     ["Upper"] = getgenv().Settings.Other.UpperKey,
-    ["Orange"] = getgenv().Settings.Fruits.Orange,
-    ["Banana"] = getgenv().Settings.Fruits.Banana,
-    ["Apple"] = getgenv().Settings.Fruits.Apple,
-    ["Rainbow"] = getgenv().Settings.Fruits.RainbowFruit,
-    ["Pineapple"] = getgenv().Settings.Fruits.Pineapple
+    ["LowerKey"] = getgenv().Settings.Other.LowerKey
 }
 
 repeat wait() until game:IsLoaded()

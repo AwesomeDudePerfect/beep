@@ -103,6 +103,7 @@ end
 
 local function sendUpdate(webhook, user, item, gems, version, isSniped)
     local gemamount = tonumber(game:GetService("Players").LocalPlayer.leaderstats["💎 Diamonds"].Value)
+    local embed
     if version then
         if version == 1 then
             version = "Golden"
@@ -111,7 +112,7 @@ local function sendUpdate(webhook, user, item, gems, version, isSniped)
         else
             version = "Normal"
         end
-        local embed = {
+        embed = {
             {
                 ['title'] = "Sniped!",
                 ["color"] = tonumber(0x32CD32),
@@ -140,7 +141,7 @@ local function sendUpdate(webhook, user, item, gems, version, isSniped)
             }
         }
     else
-        local embed = {
+        embed = {
             {
                 ['title'] = "Sniped!",
                 ["color"] = tonumber(0x32CD32),

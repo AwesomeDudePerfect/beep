@@ -70,7 +70,7 @@ if game.placeId ~= getgenv().Settings.place then
     wait(60)
 end
 
-wait(20)
+wait(10)
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 
 --//AVOID ALTS

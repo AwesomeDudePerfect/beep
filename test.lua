@@ -106,9 +106,9 @@ local function sendUpdate(webhook, user, item, gems, version, isSniped, timeTook
         end
         embed = {
             {
-                ['title'] = "Sniped!",
+                ['title'] = "Sniped! | Took: " ..tostring(timeTook),
                 ["color"] = tonumber(0x32CD32),
-                ["timestamp"] = "Time took to snipe: " ..tostring(timeTook).."s",
+                ["timestamp"] = DateTime.now():ToIsoDate(),
                 ['fields'] = {
                     {
                         ['name'] = "**USER:**",
@@ -140,9 +140,9 @@ local function sendUpdate(webhook, user, item, gems, version, isSniped, timeTook
     else
         embed = {
             {
-                ['title'] = "Sniped!",
+                ['title'] = "Sniped! | Took: " ..tostring(timeTook),
                 ["color"] = tonumber(0x32CD32),
-                ["timestamp"] = "Time took to snipe: " ..tostring(timeTook).."s",
+                ["timestamp"] = DateTime.now():ToIsoDate(),
                 ['fields'] = {
                     {
                         ['name'] = "**USER:**",

@@ -10,7 +10,6 @@ local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
 local p = tostring(Players.LocalPlayer)
-local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
 local NiggasToAvoid = {
     "shwalalala1",
@@ -78,6 +77,7 @@ if game.placeId ~= getgenv().Settings.place then
 end
 
 wait(20)
+local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 
 --//AVOID ALTS
 for i, v in pairs(game:GetService("Players"):GetChildren()) do

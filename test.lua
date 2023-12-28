@@ -33,7 +33,7 @@ local keywords = {
     ["Exclusive"] = getgenv().Settings.Pets.EggPrice,
     ["Spinny"]= getgenv().Settings.Other.SpinnyPrice,
     ["Upper"] = getgenv().Settings.Other.UpperKey,
-    ["LowerKey"] = getgenv().Settings.Other.LowerKey
+    ["Lower"] = getgenv().Settings.Other.LowerKey
 }
 
 --//TP FUNCTION

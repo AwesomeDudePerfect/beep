@@ -22,7 +22,11 @@ local keywords = {
     ["Exclusive"] = getgenv().Settings.Pets.EggPrice,
     ["Spinny"]= getgenv().Settings.Other.SpinnyPrice,
     ["Upper"] = getgenv().Settings.Other.UpperKey,
-    ["Lower"] = getgenv().Settings.Other.LowerKey
+    ["Orange"] = getgenv().Settings.Fruits.Orange,
+    ["Banana"] = getgenv().Settings.Fruits.Banana,
+    ["Apple"] = getgenv().Settings.Fruits.Apple,
+    ["Rainbow"] = getgenv().Settings.Fruits.RainbowFruit,
+    ["Pineapple"] = getgenv().Settings.Fruits.Pineapple
 }
 
 repeat wait() until game:IsLoaded()
@@ -41,8 +45,11 @@ local function serverHop(id)
         local req = request({ Url = string.format(sfUrl, id, "Desc", 100) })
         local body = HttpService:JSONDecode(req.Body)
         if id == 15502339080 then
-            if body.nextPageCursor ~= nil then
-                req = request({ Url = string.format( sfUrl .. "&cursor=" .. body.nextPageCursor, id, "Desc", 100), })
+            for i = 1, 3, 1 do
+                if body.nextPageCursor ~= nil then
+                    req = request({ Url = string.format( sfUrl .. "&cursor=" .. body.nextPageCursor, id, "Desc", 100), })
+                    body = HttpService:JSONDecode(req.Body)
+                end
             end
         end
         task.wait(0.1)
@@ -70,13 +77,11 @@ if game.placeId ~= getgenv().Settings.place then
     wait(60)
 end
 
-local p = tostring(game:GetService("Players").LocalPlayer)
+local p = tostring(Players.LocalPlayer)
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
 
 for i, v in pairs(game:GetService("Players"):GetChildren()) do
-    print(v.Name)
-
     for _, username in ipairs(NiggasToAvoid) do
         if v.Name == username and p ~= username then
             pcall(serverHop, getgenv().Settings.place)
@@ -93,16 +98,49 @@ end
 
 local function buyItem(playerid, uid)
     local success = game:GetService("ReplicatedStorage").Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
-    print(success)
-    print(type(success))
     return success
 end
 
-local function sendUpdate(webhook, user, item, gems, isSniped)
+local function sendUpdate(webhook, user, item, gems, version, isSniped)
     local gemamount = tonumber(game:GetService("Players").LocalPlayer.leaderstats["💎 Diamonds"].Value)
-    local message = {
-        ['content'] = "@everyone",
-        ['embeds'] = {
+    if version then
+        if version == 1 then
+            version = "Golden"
+        elseif version == 2 then
+            version = "Rainbow"
+        else
+            version = "Normal"
+        end
+        local embed = {
+            {
+                ['title'] = "Sniped!",
+                ["color"] = tonumber(0x32CD32),
+                ["timestamp"] = DateTime.now():ToIsoDate(),
+                ['fields'] = {
+                    {
+                        ['name'] = "**USER:**",
+                        ['value'] = tostring(user),
+                        ['inline'] = true
+                    },
+                    {
+                        ['name'] = "**ITEM:**",
+                        ['value'] = version .. tostring(item),
+                        ['inline'] = true
+                    },
+                    {
+                        ['name'] = "**COST:**",
+                        ['value'] = formatNumber(gems),
+                        ['inline'] = true
+                    },
+                    {
+                        ['name'] = "**REMAINING :gem:: **",
+                        ['value'] = formatNumber(gemamount)
+                    }
+                }
+            }
+        }
+    else
+        local embed = {
             {
                 ['title'] = "Sniped!",
                 ["color"] = tonumber(0x32CD32),
@@ -130,6 +168,10 @@ local function sendUpdate(webhook, user, item, gems, isSniped)
                 }
             }
         }
+    end
+    local message = {
+        ['content'] = "@everyone",
+        ['embeds'] = embed
     }
 
     local messageFail = {
@@ -162,7 +204,7 @@ local function sendUpdate(webhook, user, item, gems, isSniped)
     end
 end
 
-local function checklisting(uid, gems, item, playerid)
+local function checklisting(uid, gems, item, version, playerid)
     gems = tonumber(gems)
     local type = {}
     pcall(function()
@@ -171,15 +213,15 @@ local function checklisting(uid, gems, item, playerid)
     
     if type.huge and gems <= getgenv().Settings.Pets.HugePrice then
         local shwa = buyItem(playerid, uid)
-        sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
+        sendUpdate(getgenv().Settings.webhook, p, item, gems, version, shwa)
         print('Successfully Sniped ', item)
     elseif type.titanic and gems <= getgenv().Settings.Pets.TitanicPetPrice then
         local shwa = buyItem(playerid, uid)
-        sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
+        sendUpdate(getgenv().Settings.webhook, p, item, gems, version, shwa)
         print('Successfully Sniped ', item)
     elseif type.exclusiveLevel and not string.find(item, 'Coin') and not string.find(item, 'Banana') and gems <= getgenv().Settings.Pets.ExclusivePetPrice then
         local shwa = buyItem(playerid, uid)
-        sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
+        sendUpdate(getgenv().Settings.webhook, p, item, gems, version, shwa)
         print('Successfully Sniped ', item)
     end
     for i, v in pairs(keywords) do
@@ -191,7 +233,7 @@ local function checklisting(uid, gems, item, playerid)
     for i, v in pairs(thingsTosnipe) do
         if item == i and gems <= v then
             local shwa = buyItem(playerid, uid)
-            sendUpdate(getgenv().Settings.webhook, p, item, gems, shwa)
+            sendUpdate(getgenv().Settings.webhook, p, item, gems, version, shwa)
             print('Successfully Sniped ', item)
         end
     end
@@ -207,7 +249,6 @@ local function create_platform(x, y, z)
 end
 
 local function teleport(x, y, z)
-    local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
 
     -- Wait for the character to be available
@@ -241,7 +282,8 @@ Booths_Broadcast.OnClientEvent:Connect(function(username, message)
                         local data = itemdata["data"]
                         if data then
                             local item = data["id"]
-                            checklisting(uid, gems, item, playerID)
+                            local version = data["pt"]
+                            checklisting(uid, gems, item, version, playerID)
                         end
                     end
                 end
@@ -272,8 +314,8 @@ local isServerDead = coroutine.create(function ()
     local isDead = false
     while not isDead do
         wait(10)
-        local Players = game:GetService("Players"):GetPlayers()
-        local count = #Players
+        local Playerss = Players:GetPlayers()
+        local count = #Playerss
 
         if count <= getgenv().Settings.num_of_players_to_tp then
             isDead = true

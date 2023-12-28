@@ -1,3 +1,14 @@
+--//WAIT UNTIL GAME LOADS PROPERLY
+repeat wait() until game:IsLoaded()
+if not game.PlaceId == 8737899170 or not game.PlaceId == 15502339080 or not game.PlaceId == 15588442388 then wait(9e9) end
+
+--//VARIABLES
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
+local p = tostring(Players.LocalPlayer)
+local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
+local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
 local NiggasToAvoid = {
     "shwalalala1",
     "ShwaDev",
@@ -6,7 +17,6 @@ local NiggasToAvoid = {
     "centerunlikely",
     "MrIppo"
 }
-
 local thingsTosnipe = {
     ["Fortune"] = getgenv().Settings.Books.FortunePrice,
     ["Chest Mimic"] = getgenv().Settings.Books.ChestMimicPrice,
@@ -16,7 +26,6 @@ local thingsTosnipe = {
     ["Titanic Christmas Present"] = getgenv().Settings.Present.TitanicPresentPrice,
     ["X-Large Christmas Present"] = getgenv().Settings.Present.XLargeChristmasPrice
 }
-
 local keywords = {
     ["Royalty"] = getgenv().Settings.Charm.RoyaltyPrice,
     ["Exclusive"] = getgenv().Settings.Pets.EggPrice,
@@ -25,16 +34,7 @@ local keywords = {
     ["LowerKey"] = getgenv().Settings.Other.LowerKey
 }
 
-repeat wait() until game:IsLoaded()
-
-if not game.PlaceId == 8737899170 or not game.PlaceId == 15502339080 or not game.PlaceId == 15588442388 then wait(9e9) end
-
-print('executed')
-
-local Players = game:GetService("Players")
-local TeleportService = game:GetService("TeleportService")
-local HttpService = game:GetService("HttpService")
-
+--//TP FUNCTION
 local function serverHop(id)
     repeat
         local sfUrl = "https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=%s&limit=%s"
@@ -67,16 +67,14 @@ local function serverHop(id)
     until game.placeId ~= 8737899170
 end
 
+--//TP TO PLAZA
 wait(20)
 if game.placeId ~= getgenv().Settings.place then
     pcall(serverHop, getgenv().Settings.place)
     wait(60)
 end
 
-local p = tostring(Players.LocalPlayer)
-local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
-local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
-
+--//AVOID ALTS
 for i, v in pairs(game:GetService("Players"):GetChildren()) do
     for _, username in ipairs(NiggasToAvoid) do
         if v.Name == username and p ~= username then
@@ -86,8 +84,7 @@ for i, v in pairs(game:GetService("Players"):GetChildren()) do
     end
 end
 
-wait(10)
-
+--//FUNCTION REGION
 local function formatNumber(number)
     return tostring(number):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
 end
@@ -263,6 +260,7 @@ local function teleport(x, y, z)
     end
 end
 
+--//CREATE PLATFORM BENEATH THEN TP THERE
 create_platform(-922, 190, -2338)
 local aa = game.Workspace:FindFirstChild("plat")
 repeat
@@ -270,6 +268,7 @@ repeat
 until aa ~= nil
 teleport(-922, 195, -2338)
 
+--//CHECKS BOOTH FOR SALE
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     if message ~= nil then
         if type(message) == "table" then
@@ -294,6 +293,7 @@ Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     end
 end)
 
+--//JUMP
 local niggaJump = coroutine.create(function ()
     while 1 do
         wait(5)
@@ -310,8 +310,10 @@ VirtualUser:ClickButton2(Vector2.new())
 end)
 game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
+--//OPTIMIZATION
 game:GetService('RunService'):Set3dRenderingEnabled(false)
 
+--//DEAD SERVER CHECK
 local isServerDead = coroutine.create(function ()
     local isDead = false
     while not isDead do
@@ -328,6 +330,7 @@ local isServerDead = coroutine.create(function ()
 end)
 coroutine.resume(isServerDead)
 
+--//TP TO ANOTHER SERVER AFTER 40MINS
 wait(2400)
 repeat
     pcall(serverHop, getgenv().Settings.place)

@@ -1,6 +1,7 @@
 --//WAIT UNTIL GAME LOADS PROPERLY
 repeat wait() until game:IsLoaded()
 if not game.PlaceId == 8737899170 or not game.PlaceId == 15502339080 or not game.PlaceId == 15588442388 then wait(9e9) end
+print('executed')
 
 --//VARIABLES
 local Players = game:GetService("Players")

@@ -108,7 +108,7 @@ local function sendUpdate(webhook, user, item, gems, version, isSniped, timeTook
             {
                 ['title'] = "Sniped!",
                 ["color"] = tonumber(0x32CD32),
-                ["timestamp"] = "Time took to snipe: " ..tonumber(timeTook).."s",
+                ["timestamp"] = "Time took to snipe: " ..tostring(timeTook).."s",
                 ['fields'] = {
                     {
                         ['name'] = "**USER:**",
@@ -142,7 +142,7 @@ local function sendUpdate(webhook, user, item, gems, version, isSniped, timeTook
             {
                 ['title'] = "Sniped!",
                 ["color"] = tonumber(0x32CD32),
-                ["timestamp"] = "Time took to snipe: " ..tonumber(timeTook).."s",
+                ["timestamp"] = "Time took to snipe: " ..tostring(timeTook).."s",
                 ['fields'] = {
                     {
                         ['name'] = "**USER:**",
@@ -152,6 +152,11 @@ local function sendUpdate(webhook, user, item, gems, version, isSniped, timeTook
                     {
                         ['name'] = "**ITEM:**",
                         ['value'] = tostring(item),
+                        ['inline'] = true
+                    },
+                    {
+                        ['name'] = "**PET VERSION:**",
+                        ['value'] = tostring(version),
                         ['inline'] = true
                     },
                     {

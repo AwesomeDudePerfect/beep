@@ -93,7 +93,7 @@ local function buyItem(playerid, uid)
     return success
 end
 
-local function sendUpdate(webhook, user, item, gems, version, isSniped)
+local function sendUpdate(webhook, user, item, gems, version, isSniped, timeTook)
     local gemamount = tonumber(game:GetService("Players").LocalPlayer.leaderstats["💎 Diamonds"].Value)
     local embed
     if version then
@@ -108,7 +108,7 @@ local function sendUpdate(webhook, user, item, gems, version, isSniped)
             {
                 ['title'] = "Sniped!",
                 ["color"] = tonumber(0x32CD32),
-                ["timestamp"] = DateTime.now():ToIsoDate(),
+                ["timestamp"] = "Time took to snipe: " ..timeTook.."s",
                 ['fields'] = {
                     {
                         ['name'] = "**USER:**",
@@ -142,7 +142,7 @@ local function sendUpdate(webhook, user, item, gems, version, isSniped)
             {
                 ['title'] = "Sniped!",
                 ["color"] = tonumber(0x32CD32),
-                ["timestamp"] = DateTime.now():ToIsoDate(),
+                ["timestamp"] = "Time took to snipe: " ..timeTook.."s",
                 ['fields'] = {
                     {
                         ['name'] = "**USER:**",
@@ -210,16 +210,22 @@ local function checklisting(uid, gems, item, version, playerid)
     end)
     
     if type.huge and gems <= getgenv().Settings.Pets.HugePrice then
+        local startTick = os.clock()
         local shwa = buyItem(playerid, uid)
-        sendUpdate(getgenv().Settings.webhook, p, item, gems, version, shwa)
+        local endTick = os.clock() - startTick
+        sendUpdate(getgenv().Settings.webhook, p, item, gems, version, shwa, endTick)
         print('Successfully Sniped ', item)
     elseif type.titanic and gems <= getgenv().Settings.Pets.TitanicPetPrice then
+        local startTick = os.clock()
         local shwa = buyItem(playerid, uid)
-        sendUpdate(getgenv().Settings.webhook, p, item, gems, version, shwa)
+        local endTick = os.clock() - startTick
+        sendUpdate(getgenv().Settings.webhook, p, item, gems, version, shwa, endTick)
         print('Successfully Sniped ', item)
     elseif type.exclusiveLevel and not string.find(item, 'Coin') and not string.find(item, 'Banana') and gems <= getgenv().Settings.Pets.ExclusivePetPrice then
+        local startTick = os.clock()
         local shwa = buyItem(playerid, uid)
-        sendUpdate(getgenv().Settings.webhook, p, item, gems, version, shwa)
+        local endTick = os.clock() - startTick
+        sendUpdate(getgenv().Settings.webhook, p, item, gems, version, shwa, endTick)
         print('Successfully Sniped ', item)
     end
     for i, v in pairs(keywords) do
@@ -230,8 +236,10 @@ local function checklisting(uid, gems, item, version, playerid)
     end
     for i, v in pairs(thingsTosnipe) do
         if item == i and gems <= v then
+            local startTick = os.clock()
             local shwa = buyItem(playerid, uid)
-            sendUpdate(getgenv().Settings.webhook, p, item, gems, version, shwa)
+            local endTick = os.clock() - startTick
+            sendUpdate(getgenv().Settings.webhook, p, item, gems, version, shwa, endTick)
             print('Successfully Sniped ', item)
         end
     end

@@ -38,8 +38,7 @@ local keywords = {
     ["Royalty"] = getgenv().Settings.Charm.RoyaltyPrice,
     ["Exclusive"] = getgenv().Settings.Pets.EggPrice,
     ["Spinny"]= getgenv().Settings.Other.SpinnyPrice,
-    ["Upper"] = getgenv().Settings.Other.UpperKey,
-    ["Lower"] = getgenv().Settings.Other.LowerKey
+    ["Key"] = getgenv().Settings.Other.Key
 }
 
 --//TP FUNCTION
@@ -72,11 +71,13 @@ local function serverHop(id)
 end
 
 --//TP TO PLAZA
+wait(20)
 if game.placeId ~= getgenv().Settings.place then
     pcall(serverHop, getgenv().Settings.place)
     wait(60)
 end
 
+wait(10)
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 if pingValue >= 300 then
     pcall(serverHop, getgenv().Settings.place)

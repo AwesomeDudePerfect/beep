@@ -325,6 +325,16 @@ VirtualUser:ClickButton2(Vector2.new())
 end)
 game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
+--//AUTO RECONNECT CUZ ISP BEING GAY
+task.spawn(function()
+    game:GetService("GuiService").ErrorMessageChanged:Connect(function()
+        game.Players.LocalPlayer:Kick("Found An Error, Reconnecting...")
+        print("Found An Error, Reonnecting...")
+        wait(0.1)
+        game:GetService("TeleportService"):Teleport(game.PlaceId)
+    end);
+end)
+
 --//OPTIMIZATION
 terrain.WaterWaveSize = 0
 terrain.WaterWaveSpeed = 0

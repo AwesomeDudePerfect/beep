@@ -1,5 +1,5 @@
 --//WAIT UNTIL GAME LOADS PROPERLY
-repeat wait() until game:IsLoaded()
+--repeat wait() until game:IsLoaded()
 print('executed')
 
 --//VARIABLES

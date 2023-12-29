@@ -72,7 +72,6 @@ local function serverHop(id)
 end
 
 --//TP TO PLAZA
-wait(20)
 if game.placeId ~= getgenv().Settings.place then
     pcall(serverHop, getgenv().Settings.place)
     wait(60)

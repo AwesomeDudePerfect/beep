@@ -3,8 +3,6 @@ repeat wait() until game:IsLoaded()
 if not game.PlaceId == 8737899170 or not game.PlaceId == 15502339080 or not game.PlaceId == 15588442388 then wait(9e9) end
 print('executed')
 
-wait(20)
-
 --//VARIABLES
 local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
@@ -74,13 +72,11 @@ local function serverHop(id)
 end
 
 --//TP TO PLAZA
-wait(20)
 if game.placeId ~= getgenv().Settings.place then
     pcall(serverHop, getgenv().Settings.place)
     wait(60)
 end
 
-wait(20)
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
 if pingValue >= 300 then
     pcall(serverHop, getgenv().Settings.place)

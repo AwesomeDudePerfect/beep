@@ -9,6 +9,9 @@ wait(20)
 local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
+local serverStats = game:GetService("Stats").Network.ServerStatsItem
+local dataPing = serverStats["Data Ping"]:GetValueString()
+local pingValue = tonumber(dataPing:match("(%d+)"))
 local p = tostring(Players.LocalPlayer)
 local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
 local NiggasToAvoid = {
@@ -321,7 +324,7 @@ end)
 game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
 --//OPTIMIZATION
-game:GetService('RunService'):Set3dRenderingEnabled(false)
+game:GetService('RunService'):Set3dRenderingEnabled(true)
 
 --//DEAD SERVER CHECK
 local isServerDead = coroutine.create(function ()
@@ -341,8 +344,8 @@ end)
 coroutine.resume(isServerDead)
 
 --//TP TO ANOTHER SERVER AFTER 40MINS
-wait(2400)
-repeat
-    pcall(serverHop, getgenv().Settings.place)
-    wait(5)
-until game.placeId ~= getgenv().Settings.place
+-- wait(2400)
+--repeat
+--    pcall(serverHop, getgenv().Settings.place)
+--    wait(5)
+--until game.placeId ~= getgenv().Settings.place

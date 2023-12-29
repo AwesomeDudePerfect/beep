@@ -77,12 +77,9 @@ if game.placeId ~= getgenv().Settings.place then
     wait(60)
 end
 
+
 wait(10)
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")
-if pingValue >= 300 then
-    pcall(serverHop, getgenv().Settings.place)
-    wait(60)
-end
 
 --//AVOID ALTS
 for i, v in pairs(game:GetService("Players"):GetChildren()) do

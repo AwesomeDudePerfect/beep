@@ -1,5 +1,6 @@
+
 --//WAIT UNTIL GAME LOADS PROPERLY
---repeat wait() until game:IsLoaded()
+repeat wait() until game:IsLoaded()
 wait(40)
 print('executed')
 
@@ -318,13 +319,13 @@ Booths_Broadcast.OnClientEvent:Connect(function(username, message)
 end)
 
 --//JUMP
-local niggaJump = coroutine.create(function ()
+--[[ local niggaJump = coroutine.create(function ()
     while 1 do
         wait(5)
         game.Players.LocalPlayer.Character.Humanoid.Jump = true
     end
 end)
-coroutine.resume(niggaJump)
+coroutine.resume(niggaJump) ]]
 
 --//Anti AFK
 local VirtualUser=game:service'VirtualUser'

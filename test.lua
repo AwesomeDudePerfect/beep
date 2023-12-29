@@ -15,6 +15,9 @@ local NiggasToAvoid = {
     "shwalalala1",
     "ShwaDev",
     "ShwaDevZ",
+    "ShwaDevY",
+    "ShwaDevX,
+    "ShwaDevW",
     "historianaverage",
     "centerunlikely",
     "MrIppo"

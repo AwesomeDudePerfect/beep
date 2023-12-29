@@ -52,6 +52,8 @@ local function serverHop(id)
         local body = HttpService:JSONDecode(req.Body)
         req = request({ Url = string.format( sfUrl .. "&cursor=" .. body.nextPageCursor, id, "Desc", 100), })
         body = HttpService:JSONDecode(req.Body)
+        req = request({ Url = string.format( sfUrl .. "&cursor=" .. body.nextPageCursor, id, "Desc", 100), })
+        body = HttpService:JSONDecode(req.Body)
         task.wait(0.1)
         local servers = {}
         if body and body.data then

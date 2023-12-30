@@ -8,6 +8,8 @@ local TeleportService = game:GetService("TeleportService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Library = require(ReplicatedStorage:WaitForChild('Library'))
 local Booths_Broadcast = ReplicatedStorage.Network:WaitForChild("Booths_Broadcast")
+local lighting = game.Lighting
+local terrain = game.Workspace.Terrain
 
 for i = 1, PlayerInServer do
     for ii = 1,#alts do
@@ -213,6 +215,88 @@ local function serverHop(id)
 
     TeleportService:TeleportToPlaceInstance(id, servers[math.random(1, randomCount)], Players.LocalPlayer)
 end
+
+local function create_platform(x, y, z)
+    local p = Instance.new("Part")
+    p.Anchored = true
+    p.Name = "plat"
+    p.Position = Vector3.new(x, y, z)
+    p.Size = Vector3.new(10, 1, 10)
+    p.Parent = game.Workspace
+end
+
+local function teleport(x, y, z)
+    local Players = game:GetService("Players")
+    local LocalPlayer = Players.LocalPlayer
+
+    -- Wait for the character to be available
+    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+
+    if humanoidRootPart then
+        humanoidRootPart.CFrame = CFrame.new(Vector3.new(x, y, z))
+    end
+end
+
+--//CREATE PLATFORM BENEATH THEN TP THERE
+create_platform(-922, 190, -2338)
+local aa = game.Workspace:FindFirstChild("plat")
+repeat
+    wait()
+until aa ~= nil
+teleport(-922, 195, -2338)
+
+--//Anti AFK
+local VirtualUser=game:service'VirtualUser'
+game:service'Players'.LocalPlayer.Idled:connect(function()
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+end)
+game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
+
+--//OPTIMIZATION
+terrain.WaterWaveSize = 0
+terrain.WaterWaveSpeed = 0
+terrain.WaterReflectance = 0
+terrain.WaterTransparency = 0
+lighting.GlobalShadows = false
+lighting.FogStart = 0
+lighting.FogEnd = 0
+lighting.Brightness = 0
+for i, v in pairs(game:GetDescendants()) do
+    if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+        v.Lifetime = NumberRange.new(0)
+    elseif v:IsA("Explosion") then
+        v.BlastPressure = 1
+        v.BlastRadius = 1
+    elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
+        v.Enabled = false
+    elseif v:IsA("MeshPart") then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+    end
+end
+
+for i, e in pairs(lighting:GetChildren()) do
+    if e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect") then
+        e.Enabled = false
+    end
+end
+game:GetService('RunService'):Set3dRenderingEnabled(false)
+
+--//AUTO RECONNECT CUZ ISP BEING GAY
+task.spawn(function()
+    game:GetService("GuiService").ErrorMessageChanged:Connect(function()
+        game.Players.LocalPlayer:Kick("Found An Error, Reconnecting...")
+        print("Found An Error, Reonnecting...")
+        wait(0.1)
+        game:GetService("TeleportService"):Teleport(game.PlaceId)
+    end);
+end)
 
 game:GetService("RunService").Stepped:Connect(function()
     PlayerInServer = #getPlayers

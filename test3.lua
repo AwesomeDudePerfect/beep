@@ -256,6 +256,7 @@ end)
 game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
 --//OPTIMIZATION
+setfpscap(10)
 terrain.WaterWaveSize = 0
 terrain.WaterWaveSpeed = 0
 terrain.WaterReflectance = 0

@@ -2,6 +2,9 @@ repeat wait() until game:IsLoaded()
 
 --//TP FUNCTION
 local function serverHop(id)
+    local Players = game:GetService("Players")
+    local HttpService = game:GetService("HttpService")
+    local TeleportService = game:GetService("TeleportService")
     repeat
         local deep
         local sfUrl = "https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=%s&limit=%s"
@@ -15,7 +18,7 @@ local function serverHop(id)
         if deep > 1 then
             for i = 1, deep, 1 do
                  req = request({ Url = string.format(sfUrl .. "&cursor=" .. body.nextPageCursor, id, "Desc", 100) }) 
-                 body = http:JSONDecode(req.Body)
+                 body = HttpService:JSONDecode(req.Body)
                  task.wait(0.1)
             end
         end

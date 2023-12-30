@@ -5,6 +5,8 @@ print('executed')
 
 --//VARIABLES
 local Players = game:GetService("Players")
+local getPlayers = Players:GetPlayers()
+local PlayerInServer = #getPlayers
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
 local lighting = game.Lighting

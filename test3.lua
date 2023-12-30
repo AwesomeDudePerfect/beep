@@ -7,7 +7,6 @@ local PlayerInServer = #getPlayers
 local HttpService = game:GetService("HttpService")
 local TeleportService = game:GetService("TeleportService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Library = require(ReplicatedStorage:WaitForChild('Library'))
 local Booths_Broadcast = ReplicatedStorage.Network:WaitForChild("Booths_Broadcast")
 local lighting = game.Lighting
 local terrain = game.Workspace.Terrain
@@ -109,6 +108,7 @@ end
 end
 
 local function checklisting(uid, cost, item, version, shiny, amount, username, playerid)
+    local Library = require(ReplicatedStorage:WaitForChild('Library'))
     local purchase = ReplicatedStorage.Network.Booths_RequestPurchase
     gems = tonumber(gems)
     local ping = false

@@ -1,11 +1,9 @@
---//WAIT UNTIL GAME LOADS PROPERLY
 repeat wait() until game:IsLoaded()
 
 if not game.PlaceId == 8737899170 or not game.PlaceId == 15502339080 or not game.PlaceId == 15588442388 then wait(9e9) end
 
 print('executed')
 
---//VARIABLES
 local Players = game:GetService("Players")
 local getPlayers = Players:GetPlayers()
 local PlayerInServer = #getPlayers
@@ -45,7 +43,6 @@ local keywords = {
     ["Key"] = getgenv().Settings.Other.Key
 }
 
---//TP FUNCTION
 local function serverHop(id)
     repeat
         local sfUrl = "https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=%s&limit=%s"
@@ -94,7 +91,6 @@ for i, v in pairs(game:GetService("Players"):GetChildren()) do
     end
 end
 
---//FUNCTION REGION
 local function formatNumber(number)
     return tostring(number):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
 end
@@ -284,7 +280,6 @@ local function teleport(x, y, z)
     end
 end
 
---//CREATE PLATFORM BENEATH THEN TP THERE
 create_platform(-922, 190, -2338)
 local aa = game.Workspace:FindFirstChild("plat")
 repeat
@@ -292,7 +287,6 @@ repeat
 until aa ~= nil
 teleport(-922, 195, -2338)
 
---//CHECKS BOOTH FOR SALE
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     if message ~= nil then
         if type(message) == "table" then
@@ -317,7 +311,6 @@ Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     end
 end)
 
---//Anti AFK
 local VirtualUser=game:service'VirtualUser'
 game:service'Players'.LocalPlayer.Idled:connect(function()
 VirtualUser:CaptureController()
@@ -325,7 +318,6 @@ VirtualUser:ClickButton2(Vector2.new())
 end)
 game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Disabled = true
 
---//AUTO RECONNECT CUZ ISP BEING GAY
 task.spawn(function()
     game:GetService("GuiService").ErrorMessageChanged:Connect(function()
         game.Players.LocalPlayer:Kick("Found An Error, Reconnecting...")

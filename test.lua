@@ -313,15 +313,6 @@ Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     end
 end)
 
---//JUMP
---[[ local niggaJump = coroutine.create(function ()
-    while 1 do
-        wait(5)
-        game.Players.LocalPlayer.Character.Humanoid.Jump = true
-    end
-end)
-coroutine.resume(niggaJump) ]]
-
 --//Anti AFK
 local VirtualUser=game:service'VirtualUser'
 game:service'Players'.LocalPlayer.Idled:connect(function()
@@ -374,26 +365,9 @@ for i, e in pairs(lighting:GetChildren()) do
 end
 game:GetService('RunService'):Set3dRenderingEnabled(false)
 
---//DEAD SERVER CHECK
-local isServerDead = coroutine.create(function ()
-    local isDead = false
-    while not isDead do
-        wait(10)
-        local Playerss = Players:GetPlayers()
-        local count = #Playerss
-
-        if count <= getgenv().Settings.num_of_players_to_tp then
-            isDead = true
-            pcall(serverHop, getgenv().Settings.place)
-            wait(60)
-        end
+game:GetService("RunService").Stepped:Connect(function()
+    PlayerInServer = #getPlayers
+    if PlayerInServer < 25 then
+        serverHop(place)
     end
 end)
-coroutine.resume(isServerDead)
-
---//TP TO ANOTHER SERVER AFTER 40MINS
--- wait(2400)
---repeat
---    pcall(serverHop, getgenv().Settings.place)
---    wait(5)
---until game.placeId ~= getgenv().Settings.place

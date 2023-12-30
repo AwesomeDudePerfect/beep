@@ -1,4 +1,3 @@
-
 --//WAIT UNTIL GAME LOADS PROPERLY
 repeat wait() until game:IsLoaded()
 wait(40)
@@ -72,11 +71,11 @@ local function serverHop(id)
 end
 
 --//TP TO PLAZA
+wait(20)
 if game.placeId ~= getgenv().Settings.place then
     pcall(serverHop, getgenv().Settings.place)
     wait(60)
 end
-
 
 wait(10)
 local Booths_Broadcast = game:GetService("ReplicatedStorage").Network:WaitForChild("Booths_Broadcast")

@@ -39,5 +39,5 @@ local function serverHop(id)
 end
 
 while wait(1) do
-    serverHop(getgenv().Settings.place)
+    serverHop(place)
 end
